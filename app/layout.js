@@ -2,6 +2,8 @@ import "./globals.css";
 import Header from "@/components/Header";
 import { ToastContainer } from "react-toastify";
 import { SessionProvider } from "next-auth/react";
+import * as dotenv from 'dotenv'
+dotenv.config()
 
 export const metadata = {
     title: "Nextecom",
