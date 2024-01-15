@@ -5,7 +5,6 @@ const Header = () => {
     const { data: session, status } = useSession();
 
     // console.table({session, status})
-    console.log(session);
 
     return (
         <nav className="flex p-2 px-5 justify-between bg-gray-100 mb-3 border-2 shadow-sm drop-shadow-md">
@@ -16,7 +15,7 @@ const Header = () => {
             <div className="flex justify-end items-center gap-5">
                 {status === "authenticated" ? (
                     <>
-                        <Link href={"/dashboard/user"} className="text-lg text-blue-400">
+                        <Link href={`/dashboard/${session?.user?.role}`} className="text-lg text-blue-400">
                             {session?.user?.name} ({session?.user?.role.toUpperCase()})
                         </Link>
                         <button onClick={() => signOut({ callbackUrl: "/login" })} className="text-blue-400 text-lg">
