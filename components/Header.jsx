@@ -7,20 +7,16 @@ const Header = () => {
     // console.table({session, status})
 
     return (
-        <nav className="flex p-2 px-5 justify-between bg-gray-100 mb-3 border-2 shadow-sm drop-shadow-md">
-            <Link href={"/"} className="text-lg text-blue-400">
-                🛒 NEXTECOM
-            </Link>
+        <nav className="flex py-4 text-[18px] md:text-xl px-5 justify-between text-white  bg-gray-900 mb-3 border-2 shadow-sm drop-shadow-md">
+            <Link href={"/"}>🛒ECOM</Link>
 
-            <div className="flex justify-end items-center gap-5">
+            <div className="flex justify-end items-center gap-x-3 md:gap-5">
                 {status === "authenticated" ? (
                     <>
-                        <Link href={`/dashboard/${session?.user?.role}`} className="text-lg text-blue-400">
+                        <Link href={`/dashboard/${session?.user?.role}`}>
                             {session?.user?.name} ({session?.user?.role.toUpperCase()})
                         </Link>
-                        <button onClick={() => signOut({ callbackUrl: "/login" })} className="text-blue-400 text-lg">
-                            SIGN OUT
-                        </button>
+                        <button onClick={() => signOut({ callbackUrl: "/login" })}>SIGN OUT</button>
                     </>
                 ) : status === "loading" ? (
                     <span className="text-danger">LOADING..</span>
