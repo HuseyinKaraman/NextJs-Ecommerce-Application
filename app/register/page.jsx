@@ -5,9 +5,10 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useFormik } from "formik";
 import { registerSchema } from "@/schema/registerSchema";
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
 import axios from "axios";
 import { useState } from "react";
+import { signIn } from "next-auth/react";
 
 const inputs = [
     {
@@ -76,31 +77,44 @@ const Register = () => {
     });
 
     return (
-        <div className="container py-20 sm:h-[630px]">
-            <div className="flex flex-col  mx-auto max-w-[500px] shadow-2xl p-5">
-            <Title addClass={"text-[40px] text-center"}>Register</Title>
-            <form
-                className="flex flex-col gap-y-3 justify-center items-start mt-[35px]"
-                onSubmit={handleSubmit}
-            >
-                {inputs.map((input, index) => (
-                    <Input
-                        key={index}
-                        {...input}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        value={values[input.name]}
-                        errorMessage={errors[input.name]}
-                        touched={touched[input.name]}
-                    />
-                ))}
-                <button className="btn-primary-2 mt-2 !rounded-none" type="submit" disabled={isLoading}>
-                    {isLoading ? "Please Wait..." : "Submit"}
-                </button>
-                <Link href={"/login"} className="underline text-sm cursor-pointer text-gray-600">
-                    Do you have a account?
-                </Link>
-            </form>
+        <div className="container m-auto py-20 sm:h-screen">
+            <div className="flex flex-col  mx-auto max-w-[400px] sm:max-w-[500px] shadow-2xl p-5">
+                <Title addClass={"text-[40px] text-center"}>Register</Title>
+                <form className="flex flex-col gap-y-3 justify-center items-start mb-4 mt-[35px]" onSubmit={handleSubmit}>
+                    {inputs.map((input, index) => (
+                        <Input
+                            key={index}
+                            {...input}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values[input.name]}
+                            errorMessage={errors[input.name]}
+                            touched={touched[input.name]}
+                        />
+                    ))}
+                    <button className="btn-primary-2 !rounded-none mt-2" type="submit" disabled={isLoading}>
+                        {isLoading ? "Please Wait..." : "Submit"}
+                    </button>
+                    <Link href={"/login"} className="underline text-sm cursor-pointer text-gray-600">
+                        Do you have a account?
+                    </Link>
+                </form>
+                <div className="flex gap-4 w-full !text-[16px]">
+                    <button
+                        className="btn-secondary w-full !rounded-none !text-white"
+                        type="button"
+                        onClick={() => signIn("github")}
+                    >
+                        <i className="fa-brands fa-github mr-2"></i>GITHUB
+                    </button>
+                    <button
+                        className="btn-primary-2 !bg-red-600 !rounded-none w-full !text-white"
+                        type="button"
+                        onClick={() => signIn("google",{callbackUrl:"http://localhost:3000"})}
+                    >
+                        <i className="fa-brands fa-google mr-2"></i>SIGN IN WITH GOOGLE
+                    </button>
+                </div>
             </div>
         </div>
     );
