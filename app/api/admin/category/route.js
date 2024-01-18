@@ -8,11 +8,12 @@ export async function POST(request) {
         await dbConnect();
         const body = await request.json();
         const { name } = body;
-        const newCategory = await new Category({ name, slug: slugify(name) }).save();
+        const newCategory = await Category.create({ name, slug: slugify(name) });
         return NextResponse.json(newCategory, { status: 201 });
     } catch (error) {
+        const err = error?.errors;
         return NextResponse.json(
-            { error: error?.errors?.properties?.message ? error.errors.properties.message : error.message },
+            { error: err?.slug ? err.slug?.properties?.message : error.message },
             { status: 500 }
         );
     }
@@ -30,4 +31,3 @@ export async function GET() {
         );
     }
 }
-

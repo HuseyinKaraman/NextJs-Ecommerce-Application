@@ -23,6 +23,6 @@ const categorySchema = new mongoose.Schema(
 );
 
 
-categorySchema.plugin(uniqueValidator);
+categorySchema.plugin(uniqueValidator,"is already taken.");
 
 export default mongoose.models.Category || mongoose.model('Category', categorySchema);
