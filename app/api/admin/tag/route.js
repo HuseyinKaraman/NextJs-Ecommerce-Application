@@ -7,8 +7,8 @@ export async function POST(request) {
     try {
         await dbConnect();
         const body = await request.json();
-        const { name, parent } = body;
-        const newTag = await Tag.create({ name, parent, slug: slugify(name) });
+        const { name, parentCategory } = body;
+        const newTag = await Tag.create({ name, parentCategory, slug: slugify(name) });
         return NextResponse.json(newTag, { status: 201 });
     } catch (error) {
         const err = error?.errors;

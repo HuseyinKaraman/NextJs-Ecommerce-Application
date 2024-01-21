@@ -15,11 +15,7 @@ const CategoryCreate = () => {
                 name="name"
                 type="text"
                 placeholder="Add new a category"
-                onChange={
-                    updatingCategory
-                        ? (e) => setUpdatingCategory({ ...updatingCategory, name: e.target.value })
-                        : (e) => setName(e.target.value)
-                }
+                onChange={(e) => updatingCategory ? setUpdatingCategory({ ...updatingCategory, name: e.target.value }): setName(e.target.value)}
                 value={updatingCategory ? updatingCategory.name : name}
             />
             <div className="flex gap-4">

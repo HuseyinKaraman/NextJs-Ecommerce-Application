@@ -15,7 +15,7 @@ export const TagProvider = ({ children }) => {
         try {
             const res = await axios.post(`http://localhost:3000/api/admin/tag`, {
                 name,
-                parent: parentCategory
+                parentCategory
             });
             if (res.status === 201) {
                 toast.success("Tag added successfully", {
@@ -25,9 +25,9 @@ export const TagProvider = ({ children }) => {
                     closeOnClick: true,
                     pauseOnHover: true,
                 });
-                setTags([...tags, res.data]);
                 setName("");
-                setParentCategory("");
+                // setParentCategory("");
+                setTags([...tags, res.data]);
             }
         } catch (error) {
             const message = error?.response?.data?.error ? error.response.data.error : "Error creating tag";
@@ -40,7 +40,7 @@ export const TagProvider = ({ children }) => {
             });
         }
     };
-    const fetchTag = async () => {
+    const fetchTags = async () => {
         try {
             const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/admin/tag`);
             if (res.status === 200) {
@@ -87,7 +87,7 @@ export const TagProvider = ({ children }) => {
         try {
             const res = await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/admin/tag/${updatingTag?._id}`, {
                 name: updatingTag.name,
-                parent : updatingTag.parentCategory
+                parentCategory : updatingTag.parentCategory
             });
             if (res.status === 200) {
                 toast.success("Tag updated successfully", {
@@ -124,7 +124,7 @@ export const TagProvider = ({ children }) => {
                 setTags,
                 setUpdatingTag,
                 createTag,
-                fetchTag,
+                fetchTags,
                 deleteTag,
                 updateTag,
             }}
