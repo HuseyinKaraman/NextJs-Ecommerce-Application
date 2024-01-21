@@ -1,9 +1,7 @@
 "use client";
 import OutsideClickHandler from "react-outside-click-handler";
-import { useCategory } from "@/context/category";
 
 const PopConfirm = ({ question, setConfirm, sendRequest, addClass }) => {
-    const { setUpdatingCategory } = useCategory();
 
     return (
         <OutsideClickHandler
@@ -19,7 +17,6 @@ const PopConfirm = ({ question, setConfirm, sendRequest, addClass }) => {
                         onClick={() => {
                             setConfirm(false);
                             sendRequest();
-                            setUpdatingCategory(null);
                         }}
                         type="button"
                     >
@@ -29,7 +26,6 @@ const PopConfirm = ({ question, setConfirm, sendRequest, addClass }) => {
                         className="btn text-sm"
                         onClick={() => {
                             setConfirm(false);
-                            setUpdatingCategory(null);
                         }}
                         type="button"
                     >

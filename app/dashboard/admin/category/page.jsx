@@ -3,7 +3,7 @@ import CreateCategory from "@/components/admin/CreateCategory";
 import ListCategory from "@/components/admin/ListCategory";
 import Title from "@/components/ui/Title";
 
-const Page = () => {
+const AdminCategory = () => {
     return (
         <div className="flex flex-col md:h-[calc(100vh_-_90px)] w-full md:pr-10">
             <Title addClass={"text-[30px] mb-4 border-b-2 h-[52px]"}>CreateCategory</Title>
@@ -17,4 +17,4 @@ const Page = () => {
     );
 };
 
-export default Page;
+export default AdminCategory;

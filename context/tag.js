@@ -3,31 +3,34 @@ import axios from "axios";
 import { createContext, useContext, useState } from "react";
 import { toast } from "react-toastify";
 
-export const CategoryContext = createContext();
+export const TagContext = createContext();
 
-export const CategoryProvider = ({ children }) => {
+export const TagProvider = ({ children }) => {
     const [name, setName] = useState("");
-    const [categories, setCategories] = useState([]);
-    const [updatingCategory, setUpdatingCategory] = useState(null);
+    const [parentCategory, setParentCategory] = useState("");
+    const [tags, setTags] = useState([]);
+    const [updatingTag, setUpdatingTag] = useState(null);
 
-    const createCategory = async () => {
+    const createTag = async () => {
         try {
-            const res = await axios.post(`http://localhost:3000/api/admin/category`, {
+            const res = await axios.post(`http://localhost:3000/api/admin/tag`, {
                 name,
+                parent: parentCategory
             });
             if (res.status === 201) {
-                toast.success("Category added successfully", {
+                toast.success("Tag added successfully", {
                     position: "top-right",
                     autoClose: 1000,
                     hideProgressBar: false,
                     closeOnClick: true,
                     pauseOnHover: true,
                 });
-                setCategories([...categories, res.data]);
+                setTags([...tags, res.data]);
                 setName("");
+                setParentCategory("");
             }
         } catch (error) {
-            const message = error?.response?.data?.error ? error.response.data.error : "Something went wrong";
+            const message = error?.response?.data?.error ? error.response.data.error : "Error creating tag";
             toast.error(message, {
                 position: "top-right",
                 autoClose: 1000,
@@ -37,14 +40,14 @@ export const CategoryProvider = ({ children }) => {
             });
         }
     };
-    const fetchCategories = async () => {
+    const fetchTag = async () => {
         try {
-            const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/admin/category`);
+            const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/admin/tag`);
             if (res.status === 200) {
-                setCategories(res.data);
+                setTags(res.data);
             }
         } catch (error) {
-            toast.error("Something went wrong", {
+            toast.error("Error fetching tag", {
                 position: "top-right",
                 autoClose: 1000,
                 hideProgressBar: false,
@@ -54,24 +57,24 @@ export const CategoryProvider = ({ children }) => {
         }
     };
 
-    const deleteCategory = async () => {
+    const deleteTag = async () => {
         try {
             const res = await axios.delete(
-                `${process.env.NEXT_PUBLIC_API_URL}/admin/category/${updatingCategory?._id}`
+                `${process.env.NEXT_PUBLIC_API_URL}/admin/tag/${updatingTag?._id}`
             );
             if (res.status === 200) {
-                toast.success("Category deleted successfully", {
+                toast.success("Tag deleted successfully", {
                     position: "top-right",
                     autoClose: 1000,
                     hideProgressBar: false,
                     closeOnClick: true,
                     pauseOnHover: true,
                 });
-                setCategories((prev)=>prev.filter((item) => item._id !== res?.data?._id));
-                setUpdatingCategory(null);
+                setTags((prev)=>prev.filter((item) => item._id !== res?.data?._id));
+                setUpdatingTag(null);
             }
         } catch (error) {
-            toast.error("Something went wrong", {
+            toast.error("Error deleting tag", {
                 position: "top-right",
                 autoClose: 1000,
                 hideProgressBar: false,
@@ -80,24 +83,26 @@ export const CategoryProvider = ({ children }) => {
             });
         }
     };
-    const updateCategory = async () => {
+    const updateTag = async () => {
         try {
-            const res = await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/admin/category/${updatingCategory?._id}`, {
-                name: updatingCategory.name,
+            const res = await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/admin/tag/${updatingTag?._id}`, {
+                name: updatingTag.name,
+                parent : updatingTag.parentCategory
             });
             if (res.status === 200) {
-                toast.success("Category updated successfully", {
+                toast.success("Tag updated successfully", {
                     position: "top-right",
                     autoClose: 1000,
                     hideProgressBar: false,
                     closeOnClick: true,
                     pauseOnHover: true,
                 });
-                setUpdatingCategory(null);
-                setCategories((prev)=>prev.map((t)=>t._id === res?.data._id ? res?.data : t));
+                setUpdatingTag(null);
+                setParentCategory("");
+                setTags((prev)=>prev.map((item)=>item._id === res?.data._id ? res?.data : item));
             }
         } catch (error) {
-            toast.error("Something went wrong", {
+            toast.error("Error updating tag", {
                 position: "top-right",
                 autoClose: 1000,
                 hideProgressBar: false,
@@ -108,23 +113,25 @@ export const CategoryProvider = ({ children }) => {
     };
 
     return (
-        <CategoryContext.Provider
+        <TagContext.Provider
             value={{
                 name,
-                categories,
-                updatingCategory,
+                parentCategory,
+                tags,
+                updatingTag,
                 setName,
-                setCategories,
-                setUpdatingCategory,
-                createCategory,
-                fetchCategories,
-                deleteCategory,
-                updateCategory,
+                setParentCategory,
+                setTags,
+                setUpdatingTag,
+                createTag,
+                fetchTag,
+                deleteTag,
+                updateTag,
             }}
         >
             {children}
-        </CategoryContext.Provider>
+        </TagContext.Provider>
     );
 };
 
-export const useCategory = () => useContext(CategoryContext);
+export const useTag = () => useContext(TagContext);

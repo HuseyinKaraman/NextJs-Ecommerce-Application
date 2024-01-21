@@ -4,6 +4,7 @@ import Header from "@/components/Header";
 import { ToastContainer } from "react-toastify";
 import { SessionProvider } from "next-auth/react";
 import { CategoryProvider } from "@/context/category";
+import { TagProvider } from "@/context/tag";
 
 export default function RootLayout({ children }) {
     return (
@@ -16,11 +17,13 @@ export default function RootLayout({ children }) {
             </head>
             <SessionProvider>
                 <CategoryProvider>
-                    <body>
-                        <ToastContainer />
-                        <Header />
-                        {children}
-                    </body>
+                    <TagProvider>
+                        <body>
+                            <ToastContainer />
+                            <Header />
+                            {children}
+                        </body>
+                    </TagProvider>
                 </CategoryProvider>
             </SessionProvider>
         </html>

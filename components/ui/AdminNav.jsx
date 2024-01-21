@@ -25,13 +25,13 @@ export const AdminNav = () => {
                 <span>Categories</span>
             </Link>
             <Link
-                href="/dashboard/admin/product"
+                href="/dashboard/admin/tag"
                 className={`hover:bg-primary hover:text-white cursor-pointer  p-1 py-3 lg:p-3  ${
-                    pathname.includes("/product") && "bg-primary text-white"
+                    pathname.includes("/tag") && "bg-primary text-white"
                 }`}
             >
                 <i className="fa fa-list inline-block mr-2 text-xl md:text-2xl"> </i>
-                <span>Products</span>
+                <span>Tags</span>
             </Link>
             <Link
                 href="/dashboard/admin/order"
