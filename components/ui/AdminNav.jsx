@@ -34,13 +34,13 @@ export const AdminNav = () => {
                 <span>Tags</span>
             </Link>
             <Link
-                href="/dashboard/admin/order"
+                href="/dashboard/admin/product"
                 className={`hover:bg-primary hover:text-white cursor-pointer p-1 py-3 lg:p-3 ${
-                    pathname.includes("/order") && "bg-primary text-white"
+                    pathname.includes("/product") && "bg-primary text-white"
                 }`}
             >
                 <i className="fa fa-window-maximize block md:inline-block mr-2 text-xl md:text-2xl"></i>
-                <span>Orders</span>
+                <span>Products</span>
             </Link>
         </ul>
     );

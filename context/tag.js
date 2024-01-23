@@ -47,6 +47,7 @@ export const TagProvider = ({ children }) => {
                 setTags(res.data);
             }
         } catch (error) {
+            console.log(error);
             toast.error("Error fetching tag", {
                 position: "top-right",
                 autoClose: 1000,

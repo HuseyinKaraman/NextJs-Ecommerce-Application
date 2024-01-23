@@ -44,6 +44,7 @@ export const CategoryProvider = ({ children }) => {
                 setCategories(res.data);
             }
         } catch (error) {
+            console.log(error);
             toast.error("Something went wrong", {
                 position: "top-right",
                 autoClose: 1000,
