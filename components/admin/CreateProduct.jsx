@@ -1,9 +1,10 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Title from "../ui/Title";
 import { useProduct } from "@/context/product";
 import { useCategory } from "@/context/category";
 import { useTag } from "@/context/tag";
+import Image from "next/image";
 
 const AddProduct = ({ setIsProductModal }) => {
     const {
@@ -23,6 +24,8 @@ const AddProduct = ({ setIsProductModal }) => {
     const { categories, fetchCategories } = useCategory();
     const { tags, fetchTags } = useTag();
 
+    const imagePreviews = updatingProduct ? updatingProduct?.images ?? [] : product?.images ?? [];
+
     useEffect(() => {
         fetchCategories();
         fetchTags();
@@ -35,30 +38,41 @@ const AddProduct = ({ setIsProductModal }) => {
                 {updatingProduct ? "Update" : "Create"} Product
             </Title>
             <div className="flex flex-col gap-y-5 w-full">
-                <div className="flex gap-20 items-center justify-start text-sm">
-                    <label className="mt-4">
+                <div className="flex gap-20 mt-4 items-center justify-start text-sm">
+                    <label
+                        className={`btn-primary !text-center !w-40 !px-0 ${uploading && "disabled:cursor-not-allowed"}`}
+                    >
+                        {uploading ? "Processing" : "Upload Images"}
                         <input
                             name="img"
                             type="file"
                             className="hidden"
-                            //  onChange={}
+                            multiple
+                            accept="image/*"
+                            onChange={uploadImages}
+                            disabled={uploading}
                         />
-                        <button className="btn-primary !w-44 pointer-events-none">Choose an Image</button>
                     </label>
-                    {/* {imageSrc && (
-                                    <div className="relative">
-                                        <div
-                                            className="text-red-600 absolute -left-2 top-0  cursor-pointer text-2xl"
-                                            // onClick={}
-                                        >
-                                            X
-                                        </div>
-                                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                    {/* <img src={imageSrc} alt="" className="mt-2 w-16 h-16" /> */}
-                    {/* </div> */}
-                    {/* )} } */}
+                    {imagePreviews && (
+                        <div className="relative flex gap-5">
+                            {imagePreviews.map((image) => (
+                                <div key={image.public_id} className="w-24 h-24">
+                                     {/* eslint-disable-next-line @next/next/no-img-element */}
+                                    <img
+                                        src={image?.secure_url}
+                                        alt="product"
+                                        className="object-cover w-24 h-24 rounded-full"
+                                    />
+                                    <i
+                                        className="fa-solid fa-xmark w-full mt-1 text-red-500 text-center cursor-pointer"
+                                        onClick={() => deleteImage(image.public_id)}
+                                        title="Delete"
+                                    ></i>
+                                </div>
+                            ))}
+                        </div>
+                    )}
                 </div>
-
                 <div className="flex flex-col text-sm">
                     <span className="font-semibold mb-2">Title</span>
                     <input
@@ -165,7 +179,7 @@ const AddProduct = ({ setIsProductModal }) => {
                     <select
                         name="category"
                         className="border-2 border-black p-2"
-                        value={updatingProduct ? updatingProduct?.category?._id : product?.category._id}
+                        value={updatingProduct ? updatingProduct?.category?._id : product?.category?._id}
                         onChange={(e) => {
                             const categoryId = e.target.value;
                             const categoryName = e.target.options[e.target.selectedIndex].getAttribute("data-name");

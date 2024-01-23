@@ -3,6 +3,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { createContext, useContext, useState } from "react";
 import { toast } from "react-toastify";
+import Resizer from "react-image-file-resizer";
 
 export const ProductContext = createContext();
 
@@ -17,16 +18,130 @@ export const ProductProvider = ({ children }) => {
     const router = useRouter();
 
     const uploadImages = (e) => {
-        console.log(e.target.files);
+        const files = e.target.files;
+
+        let allUploadedFiles = updateProduct ? updatingProduct?.images || [] : product ? product?.images || [] : [];
+
+        if (files) {
+            // check if total images exceed 4
+            const totalImages = allUploadedFiles?.length + files?.length;
+
+            if (totalImages > 4) {
+                toast.error("You can upload maximum 4 images", {
+                    position: "top-right",
+                    autoClose: 1000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                });
+                return;
+            }
+
+            setUploading(true);
+            const uploadPromises = [];
+
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                const extension = file.name.split(".")[1];
+
+                // resize image
+                const promise = new Promise((resolve, reject) => {
+                    Resizer.imageFileResizer(
+                        file,
+                        1280,
+                        720,
+                        extension,
+                        100,
+                        0,
+                        (uri) => {
+                            axios
+                                .post(`${process.env.NEXT_PUBLIC_API_URL}/admin/upload/image`, {
+                                    image: uri,
+                                })
+                                .then((res) => {
+                                    allUploadedFiles.unshift(res?.data);
+                                    resolve();
+                                })
+                                .catch((err) => {
+                                    console.log("image upload err: ", err);
+                                    reject(err);
+                                });
+                        },
+                        "base64"
+                    );
+                });
+
+                uploadPromises.push(promise);
+            }
+
+            Promise.all(uploadPromises)
+                .then(() => {
+                    toast.success("Images uploaded successfully", {
+                        position: "top-right",
+                        autoClose: 1000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                    });
+                    updatingProduct
+                        ? setUpdatingProduct({ ...updatingProduct, images: allUploadedFiles })
+                        : setProduct({ ...product, images: allUploadedFiles });
+                    setUploading(false);
+                })
+                .catch((err) => {
+                    console.log("image upload err: ", err);
+                    toast.error("Something went wrong", {
+                        position: "top-right",
+                        autoClose: 1000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                    });
+                    setUploading(false);
+                });
+        }
     };
 
     const deleteImage = (public_id) => {
-        //
+        setUploading(true);
+        axios
+            .put(`${process.env.NEXT_PUBLIC_API_URL}/admin/upload/image`, {
+                public_id,
+            })
+            .then((res) => {
+                if (res.status === 200) {
+                    toast.success("Image deleted successfully", {
+                        position: "top-right",
+                        autoClose: 1000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                    });
+                    const filteredImages = updatingProduct
+                        ? updatingProduct?.images?.filter((image) => image.public_id !== public_id)
+                        : product?.images?.filter((image) => image.public_id !== public_id);
+
+                    updatingProduct
+                        ? setUpdatingProduct({ ...updatingProduct, images: filteredImages })
+                        : setProduct({ ...product, images: filteredImages });
+                }
+            })
+            .catch((err) => {
+                console.log("image delete err: ", err);
+                toast.error("Something went wrong", {
+                    position: "top-right",
+                    autoClose: 1000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                });
+            })
+            .finally(() => setUploading(false));
     };
 
     const createProduct = async () => {
         try {
-            const res = await axios.post(`${process.env.API}/admin/product`, {
+            const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/admin/product`, {
                 ...product,
             });
             if (res.status === 201) {
