@@ -14,6 +14,7 @@ export const ProductProvider = ({ children }) => {
     const [totalPages, setTotalPages] = useState(1);
     const [updatingProduct, setUpdatingProduct] = useState(null);
     const [uploading, setUploading] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     const router = useRouter();
 
@@ -63,7 +64,6 @@ export const ProductProvider = ({ children }) => {
                                     resolve();
                                 })
                                 .catch((err) => {
-                                    console.log("image upload err: ", err);
                                     reject(err);
                                 });
                         },
@@ -89,7 +89,6 @@ export const ProductProvider = ({ children }) => {
                     setUploading(false);
                 })
                 .catch((err) => {
-                    console.log("image upload err: ", err);
                     toast.error("Something went wrong", {
                         position: "top-right",
                         autoClose: 1000,
@@ -141,6 +140,7 @@ export const ProductProvider = ({ children }) => {
 
     const createProduct = async () => {
         try {
+            setIsLoading(true);
             const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/admin/product`, {
                 ...product,
             });
@@ -152,7 +152,9 @@ export const ProductProvider = ({ children }) => {
                     closeOnClick: true,
                     pauseOnHover: true,
                 });
-                router.push("/dashboard/admin/products");
+                setIsLoading(false);
+                setProduct(null);
+                router.push("/dashboard/admin/product");
             }
         } catch (error) {
             const message = error?.response?.data?.error ? error.response.data.error : "Something went wrong";
@@ -163,6 +165,7 @@ export const ProductProvider = ({ children }) => {
                 closeOnClick: true,
                 pauseOnHover: true,
             });
+            setIsLoading(false);
         }
     };
     const fetchProducts = async (page = 1) => {
@@ -185,6 +188,7 @@ export const ProductProvider = ({ children }) => {
     };
 
     const deleteProduct = async () => {
+        setIsLoading(true);
         try {
             const res = await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/admin/product/${updatingProduct?._id}`);
             if (res.status === 200) {
@@ -195,7 +199,9 @@ export const ProductProvider = ({ children }) => {
                     closeOnClick: true,
                     pauseOnHover: true,
                 });
-                router.back();
+                setIsLoading(false);
+                // router.back();
+                window.location.href = "/dashboard/admin/product";
             }
         } catch (error) {
             toast.error("Something went wrong", {
@@ -205,9 +211,11 @@ export const ProductProvider = ({ children }) => {
                 closeOnClick: true,
                 pauseOnHover: true,
             });
+            setIsLoading(false);
         }
     };
     const updateProduct = async () => {
+        setIsLoading(true);
         try {
             const res = await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/admin/product/${updatingProduct?._id}`, {
                 ...updatingProduct,
@@ -220,7 +228,9 @@ export const ProductProvider = ({ children }) => {
                     closeOnClick: true,
                     pauseOnHover: true,
                 });
-                router.back();
+                setIsLoading(false);
+                // router.back();
+                window.location.href = "/dashboard/admin/product";
             }
         } catch (error) {
             toast.error("Something went wrong", {
@@ -230,6 +240,7 @@ export const ProductProvider = ({ children }) => {
                 closeOnClick: true,
                 pauseOnHover: true,
             });
+            setIsLoading(false);
         }
     };
 
@@ -248,6 +259,7 @@ export const ProductProvider = ({ children }) => {
                 setTotalPages,
                 uploading,
                 setUploading,
+                isLoading, setIsLoading,
                 uploadImages,
                 deleteImage,
                 createProduct,

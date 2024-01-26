@@ -1,73 +1,81 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import Title from "@/components/ui/Title";
-import Image from "next/image";
-import PopConfirm from "@/components/ui/PopConfirm";
 import { useProduct } from "@/context/product";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import Image from "next/image";
 
 const ListProduct = () => {
-    const [confirm, setConfirm] = useState(false);
-    const { products, setUpdatingProduct, fetchProducts, deleteProduct } = useProduct();
+    const { products, currentPage, totalPages, setUpdatingProduct, fetchProducts } = useProduct();
+    const { push } = useRouter();
+    const { pathname } = usePathname();
+    const searchParams = useSearchParams();
+    const page = searchParams?.get("page");
 
     useEffect(() => {
-        fetchProducts();
+        fetchProducts(page);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [page]);
+
+    const handleClick = (prd) => {
+        setUpdatingProduct(prd);
+        push("/dashboard/admin/product/newProduct");
+    };
 
     return (
-        <div className="table_wrapper">
-            {products.length > 0 && <table className="w-full text-center text-gray-500">
-                <thead className="text-xs text-gray-400 uppercase bg-secondray">
-                    <tr>
-                        <th scope="col" className="py-4 px-6 hidden md:block">
-                            IMAGE
-                        </th>
-                        <th scope="col" className="py-4 px-6">
-                            ID
-                        </th>
-                        <th scope="col" className="py-4 px-6">
-                            TITLE
-                        </th>
-                        <th scope="col" className="py-4 px-6">
-                            PRICE
-                        </th>
-                        <th scope="col" className="py-4 px-6">
-                            ACTION
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {products?.length > 0 &&
-                        products?.map((product, index) => (
-                            <tr
-                                className="bg-secondray border-gray-700 hover:bg-primary transition-all cursor-pointer"
-                                key={product._id}
-                            >
-                                <td className="py-3 md:py-4 px-1 md:px-6 font-medium whitespace-nowrap hover:text-white items-center justify-center gap-x-1 hidden md:flex">
-                                    <Image src={product?.img} alt="" width={45} height={45} />
-                                </td>
-                                <td className="py-3 md:py-4 px-1 md:px-6 font-medium whitespace-nowrap hover:text-white">
-                                    {product?._id}
-                                </td>
-                                <td className="py-3 md:py-4 px-1 md:px-6 font-medium whitespace-nowrap hover:text-white">
-                                    {product?.title}
-                                </td>
-                                <td className="py-3 md:py-4 px-1 md:px-6 font-medium whitespace-nowrap hover:text-white">
-                                    {product?.price}
-                                </td>
-                            </tr>
-                        ))}
-                </tbody>
-            </table>}
-            {confirm && (
-                <PopConfirm
-                    setConfirm={setConfirm}
-                    question="Are you sure you want to delete this product?"
-                    sendRequest={deleteProduct}
-                    addClass={"!bottom-24 !left-24 md:!bottom-[520px] md:!left-[450px]"}
-                />
-            )}
-        </div>
+        <>
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+                {products?.length > 0 &&
+                    products?.map((product, index) => (
+                        <div
+                            key={product._id}
+                            className="relative cursor-pointer mb-5 hover:opacity-90 hover:bg-primary mx-auto border-2 border-slate-300 p-4 rounded-3xl"
+                            onClick={() => handleClick(product)}
+                        >
+                            <Image
+                                src={product.images[0]?.secure_url || "/images/default.webp"}
+                                alt={product?.title}
+                                width={300}
+                                height={300}
+                                className="!object-cover h-[200px] w-[500px] md:h-[300px] rounded-3xl mx-auto"
+                            />
+                            <div className="my-4">
+                                <p className="text-xl font-semibold text-center">
+                                    ${product?.price.toFixed(2)} {product?.title.substring(0, 50)}...
+                                </p>
+                            </div>
+                            <p className="text-md font-semibold p-2">
+                                {product.description.length > 160
+                                    ? product.description.substring(0, 160) + "..."
+                                    : product.description}
+                            </p>
+                        </div>
+                    ))}
+            </div>
+            <div className="!text-white flex justify-center gap-x-4">
+                <button
+                    className="btn-primary md:mb-10"
+                    onClick={() => {
+                        if (currentPage > 1) {
+                            fetchProducts(currentPage - 1);
+                        }
+                    }}
+                    disabled={currentPage === 1}
+                >
+                    PREV
+                </button>
+                <button
+                    className="btn-primary md:mb-10"
+                    onClick={() => {
+                        if (currentPage < totalPages) {
+                            fetchProducts(currentPage + 1);
+                        }
+                    }}
+                    disabled={currentPage === totalPages}
+                >
+                    NEXT
+                </button>
+            </div>
+        </>
     );
 };
 

@@ -1,12 +1,12 @@
 "use client";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Title from "../ui/Title";
 import { useProduct } from "@/context/product";
 import { useCategory } from "@/context/category";
 import { useTag } from "@/context/tag";
-import Image from "next/image";
+import PopConfirm from "../ui/PopConfirm";
 
-const AddProduct = ({ setIsProductModal }) => {
+const AddProduct = () => {
     const {
         product,
         setProduct,
@@ -17,12 +17,15 @@ const AddProduct = ({ setIsProductModal }) => {
         updateProduct,
         deleteProduct,
         uploading,
+        isLoading,
         setUploading,
         uploadImages,
         deleteImage,
     } = useProduct();
     const { categories, fetchCategories } = useCategory();
     const { tags, fetchTags } = useTag();
+    const [filterTags, setFilterTags] = useState([]);
+    const [confirm, setConfirm] = useState(false);
 
     const imagePreviews = updatingProduct ? updatingProduct?.images ?? [] : product?.images ?? [];
 
@@ -32,47 +35,17 @@ const AddProduct = ({ setIsProductModal }) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    return (
+    useEffect(() => {
+        setFilterTags(tags?.filter((tag) => tag.parentCategory === updatingProduct?.category?._id) ?? []);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[tags]);
+
+    return categories.length > 0 && tags.length > 0 ? (
         <div className="w-full h-full text-black md:pr-5">
             <Title addClass={"text-[40px] text-start border-b-2"}>
                 {updatingProduct ? "Update" : "Create"} Product
             </Title>
-            <div className="flex flex-col gap-y-5 w-full">
-                <div className="flex gap-20 mt-4 items-center justify-start text-sm">
-                    <label
-                        className={`btn-primary !text-center !w-40 !px-0 ${uploading && "disabled:cursor-not-allowed"}`}
-                    >
-                        {uploading ? "Processing" : "Upload Images"}
-                        <input
-                            name="img"
-                            type="file"
-                            className="hidden"
-                            multiple
-                            accept="image/*"
-                            onChange={uploadImages}
-                            disabled={uploading}
-                        />
-                    </label>
-                    {imagePreviews && (
-                        <div className="relative flex gap-5">
-                            {imagePreviews.map((image) => (
-                                <div key={image.public_id} className="w-24 h-24">
-                                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                                    <img
-                                        src={image?.secure_url}
-                                        alt="product"
-                                        className="object-cover w-24 h-24 rounded-full"
-                                    />
-                                    <i
-                                        className="fa-solid fa-xmark w-full mt-1 text-red-500 text-center cursor-pointer"
-                                        onClick={() => deleteImage(image.public_id)}
-                                        title="Delete"
-                                    ></i>
-                                </div>
-                            ))}
-                        </div>
-                    )}
-                </div>
+            <div className="flex flex-col gap-y-5 mt-4 w-full">
                 <div className="flex flex-col text-sm">
                     <span className="font-semibold mb-2">Title</span>
                     <input
@@ -174,86 +147,159 @@ const AddProduct = ({ setIsProductModal }) => {
                     </div>
                 </div>
 
-                <div className="flex flex-col flex-1">
-                    <span className="font-semibold mb-2">Categories</span>
-                    <select
-                        name="category"
-                        className="border-2 border-black p-2"
-                        value={updatingProduct ? updatingProduct?.category?._id : product?.category?._id}
-                        onChange={(e) => {
-                            const categoryId = e.target.value;
-                            const categoryName = e.target.options[e.target.selectedIndex].getAttribute("data-name");
+                <div className="flex gap-5 text-sm">
+                    <div className="flex flex-col flex-1">
+                        <span className="font-semibold mb-2">Categories</span>
+                        <select
+                            name="category"
+                            className="border-2 border-black p-2"
+                            value={updatingProduct ? updatingProduct?.category?._id : product?.category?._id}
+                            onChange={(e) => {
+                                const categoryId = e.target.value;
+                                const categoryName = e.target.options[e.target.selectedIndex].getAttribute("data-name");
 
-                            const category = categoryId ? { _id: categoryId, name: categoryName } : null;
+                                const category = categoryId ? { _id: categoryId, name: categoryName } : null;
 
-                            if (updatingProduct) {
-                                setUpdatingProduct({ ...updatingProduct, category });
-                            } else {
-                                setProduct({ ...product, category });
-                            }
-                        }}
-                    >
-                        {categories &&
-                            categories.map((item) => (
-                                <option value={item._id} key={item._id} data-name={item.name}>
-                                    {item.name}
-                                </option>
+                                if (updatingProduct) {
+                                    setUpdatingProduct({ ...updatingProduct, category });
+                                } else {
+                                    setProduct({ ...product, category });
+                                }
+                                setFilterTags(tags.filter((t) => t?.parentCategory === categoryId));
+                            }}
+                        >
+                            {categories ? (
+                                categories.map((item) => (
+                                    <option value={item._id} key={item._id} data-name={item.name}>
+                                        {item.name}
+                                    </option>
+                                ))
+                            ) : (
+                                <option value="">SELECT CATEGORY</option>
+                            )}
+                        </select>
+                    </div>
+                    <div className={`flex flex-col flex-1 h-36`}>
+                        <span className="font-semibold mb-2">Tags</span>
+                        <div name="tags" className="flex flex-wrap gap-2 overflow-auto">
+                            {filterTags?.map((item) => (
+                                <div key={item?._id}>
+                                    <label htmlFor={item?._id} className="text-xs md:text-[18px] mr-1">
+                                        {item?.name}
+                                    </label>
+                                    <input
+                                        type="checkbox"
+                                        name={item?._id}
+                                        value={item?._id}
+                                        defaultChecked={
+                                            updatingProduct?.tags?.find((t) => t?._id === item?._id) ? true : false
+                                        }
+                                        onChange={(e) => {
+                                            const tagId = e.target.value;
+                                            const tagName = item?.name;
+
+                                            const selected = e.target.checked;
+
+                                            let selectedTags = updatingProduct
+                                                ? [...(updatingProduct?.tags ?? [])]
+                                                : [...(product?.tags ?? [])];
+
+                                            if (!selected) {
+                                                selectedTags = selectedTags.filter((t) => t._id !== tagId);
+                                            } else {
+                                                selectedTags.push({ _id: tagId, name: tagName });
+                                            }
+
+                                            if (updatingProduct) {
+                                                setUpdatingProduct({
+                                                    ...updatingProduct,
+                                                    tags: selectedTags,
+                                                });
+                                            } else {
+                                                setProduct({ ...product, tags: selectedTags });
+                                            }
+                                        }}
+                                    />
+                                </div>
                             ))}
-                    </select>
-                </div>
-
-                <div className="flex flex-col text-sm">
-                    <span className="font-semibold mb-2">Tags</span>
-                    <div name="tags" className="flex flex-wrap gap-5 max-h-20 overflow-auto">
-                        {tags &&
-                            tags
-                                .filter(
-                                    (t) =>
-                                        t?.parentCategory === (product?.category?._id || updatingProduct?.category?._id)
-                                )
-                                .map((item) => (
-                                    <div key={item?._id}>
-                                        <label htmlFor={item?._id} className="mr-2">
-                                            {item?.name}
-                                        </label>
-                                        <input
-                                            type="checkbox"
-                                            value={item?._id}
-                                            onChange={(e) => {
-                                                const tagId = e.target.value;
-                                                const tagName = item?.name;
-
-                                                const selected = e.target.checked;
-
-                                                let selectedTags = updatingProduct
-                                                    ? [...(updatingProduct?.tags ?? [])]
-                                                    : [...(product?.tags ?? [])];
-
-                                                if (!selected) {
-                                                    selectedTags = selectedTags.filter((t) => t._id !== tagId);
-                                                } else {
-                                                    selectedTags.push({ _id: tagId, name: tagName });
-                                                }
-
-                                                if (updatingProduct) {
-                                                    setUpdatingProduct({ ...updatingProduct, tags: selectedTags });
-                                                } else {
-                                                    setProduct({ ...product, tags: selectedTags });
-                                                }
-                                            }}
-                                        />
-                                    </div>
-                                ))}
+                        </div>
                     </div>
                 </div>
+
+                <div className={`flex flex-col gap-5 text-sm h-40`}>
+                    <label className={`btn w-full !bg-slate-600 text-center`}>
+                        {uploading ? "Processing" : "Upload Images"}
+                        <input
+                            name="img"
+                            type="file"
+                            className="hidden w-full"
+                            multiple
+                            accept="image/*"
+                            onChange={uploadImages}
+                            disabled={uploading}
+                        />
+                    </label>
+                    {imagePreviews && (
+                        <div className="relative flex gap-5 mt-2">
+                            {imagePreviews.map((image) => (
+                                <div key={image.public_id} className="relative drop-shadow-lg">
+                                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                                    <img
+                                        src={image?.secure_url}
+                                        alt="product"
+                                        className="!object-cover w-24 h-24 rounded-full mb-2"
+                                    />
+                                    <i
+                                        className="z-50 fa-solid fa-xmark absolute -bottom-2 right-3 text-xl cursor-pointer text-red-500"
+                                        title="Delete"
+                                        onClick={() => deleteImage(image.public_id)}
+                                    ></i>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>
             </div>
-            <button className="btn text-xl !bg-green-500 block mt-5 !ml-auto" type="button">
-                Create
-            </button>
-            <pre>
-                <code>{JSON.stringify(product, null, 4)}</code>
-            </pre>
+
+            <div className="flex gap-4 relative ml-auto w-[500px]">
+                <button
+                    className="btn text-xl !bg-orange-400 !w-44 block"
+                    onClick={updatingProduct ? updateProduct : createProduct}
+                    // disabled={!name && !updatingCategory}
+                    disabled={isLoading || uploading}
+                >
+                    {updatingProduct ? "Update" : "Create"}
+                </button>
+                {updatingProduct && (
+                    <>
+                        <button
+                            className="btn-primary !bg-danger !w-44 text-white p-4"
+                            onClick={() => {
+                                setConfirm(true);
+                            }}
+                            disabled={isLoading || uploading}
+                        >
+                            Delete
+                        </button>
+                        <button
+                            className="btn-primary text-white !w-44 !bg-sky-600"
+                            onClick={() => window.location.reload()}
+                        >
+                            Clear
+                        </button>
+                    </>
+                )}
+            </div>
+            {confirm && (
+                <PopConfirm
+                    setConfirm={setConfirm}
+                    question={`Are you sure you want to delete ${updatingProduct?.title.substring(0, 20)}..?`}
+                    sendRequest={deleteProduct}
+                />
+            )}
         </div>
+    ) : (
+        <div className="w-full h-full flex justify-center items-center text-black md:pr-5">LOADING...</div>
     );
 };
 

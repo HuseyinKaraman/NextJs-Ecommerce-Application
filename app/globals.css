@@ -31,6 +31,9 @@ body {
     @apply bg-success text-white rounded-full px-3 py-1 md:px-4 md:py-2 cursor-pointer hover:opacity-70 transition-all disabled:opacity-50 disabled:cursor-not-allowed; 
 }
 
+.table_wrapper { 
+    @apply w-full !overflow-auto whitespace-nowrap;
+}
 
 .hover-text:hover span{
     display: block;

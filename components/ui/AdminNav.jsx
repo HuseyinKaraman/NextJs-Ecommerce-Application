@@ -5,7 +5,7 @@ export const AdminNav = () => {
     const pathname = usePathname();
 
     return (
-        <ul className="flex md:flex-col font-semibold justify-center md:justify-start mb-5 gap-x-5 md:gap-5 md:mt-16 w-full md:max-w-40">
+        <ul className="flex lg:flex-col font-semibold justify-center lg:justify-start mb-5 gap-x-5 lg:gap-5 lg:mt-16 w-full lg:max-w-40">
             <Link
                 href="/dashboard/admin"
                 className={`hover:bg-primary hover:text-white cursor-pointer p-1 py-3 lg:p-3 ${

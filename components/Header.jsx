@@ -7,9 +7,8 @@ const Header = () => {
     // console.table({session, status})
 
     return (
-        <nav className="flex py-4 text-[18px] md:text-xl px-5 justify-between text-white  bg-gray-900 mb-3 border-2 shadow-sm drop-shadow-md">
+        <nav className="flex py-4 text-[18px] md:text-xl px-5 justify-between text-white  bg-gray-600">
             <Link href={"/"}>🛒ECOM</Link>
-
             <div className="flex justify-end items-center gap-x-3 md:gap-5">
                 {status === "authenticated" ? (
                     <>

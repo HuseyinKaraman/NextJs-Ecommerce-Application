@@ -1,5 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+    images: {
+        domains: ['res.cloudinary.com'],
+    },
     env: {
         MONGODB_URI:process.env.MONGODB_URI,
         NEXT_PUBLIC_API_URL:process.env.NODE_ENV === 'production' ? 'https://nextecom-dusky.vercel.app/api' : process.env.NEXT_PUBLIC_API_URL,

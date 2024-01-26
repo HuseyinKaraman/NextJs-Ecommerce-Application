@@ -3,7 +3,7 @@ import dbConnect from "@/utils/dbConnect";
 import { NextResponse } from "next/server";
 import queryString from "query-string";
 
-export async function GET() {
+export async function GET(req) {
     try {
         await dbConnect();
         const searchParams = queryString.parseUrl(req.url).query;
@@ -14,7 +14,7 @@ export async function GET() {
         const skip = (currentPage - 1) * pageSize;
         const totalProducts = await Product.countDocuments({});
 
-        const products = await Product.find({}).skip(skip).limit(pageSize).sort({ createdAt: -1 });
+        const products = await Product.find({}).skip(skip).limit(pageSize).sort({ createdAt: -1 }).populate("category", "name").populate("tags", "name parentCategory");
 
         return NextResponse.json({ products, currentPage, totalPages: Math.ceil(totalProducts / pageSize) });
     } catch (error) {
