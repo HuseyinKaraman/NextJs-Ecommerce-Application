@@ -14,10 +14,22 @@ export async function GET(req) {
         const skip = (currentPage - 1) * pageSize;
         const totalProducts = await Product.countDocuments({});
 
-        const products = await Product.find({}).skip(skip).limit(pageSize).sort({ createdAt: -1 }).populate("category", "name").populate("tags", "name parentCategory");
+        const products = await Product.find({})
+            .skip(skip)
+            .limit(pageSize)
+            .sort({ createdAt: -1 })
+            .populate({
+                path: "category",
+                select: "name slug",
+            })
+            .populate({
+                path: "tags",
+                select: "name parentCategory slug",
+            });
 
         return NextResponse.json({ products, currentPage, totalPages: Math.ceil(totalProducts / pageSize) });
     } catch (error) {
+        console.log(error);
         return NextResponse.json(
             { error: error?.errors?.properties?.message ? error.errors.properties.message : error.message },
             { status: 500 }

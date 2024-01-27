@@ -1,9 +1,8 @@
 "use client"
 
 const ProductLayout = ({ children }) => {
-    
     return (
-        <div className="flex p-2 w-full">
+        <div className="flex px-5 w-full ">
             {children}
         </div>
     );
