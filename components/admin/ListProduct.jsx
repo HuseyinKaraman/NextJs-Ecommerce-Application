@@ -3,7 +3,7 @@ import React, { useEffect } from "react";
 import { useProduct } from "@/context/product";
 import { useRouter, useSearchParams } from "next/navigation";
 import Pagination from "../ui/Pagination";
-import Card from "../product/Card";
+import ProductCard from "../product/ProductCard";
 
 const ListProduct = () => {
     const { products, currentPage, totalPages, setUpdatingProduct, fetchProducts } = useProduct();
@@ -26,7 +26,7 @@ const ListProduct = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
                 {products?.length > 0 &&
                     products?.map((product) => (
-                        <Card key={product._id} product={product} handleClick={handleClick}/>
+                        <ProductCard key={product._id} product={product} handleClick={handleClick} role="admin"/>
                     ))}
             </div>
             <Pagination totalPages={totalPages} currentPage={currentPage} />
