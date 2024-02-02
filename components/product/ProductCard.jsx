@@ -9,8 +9,8 @@ dayjs.extend(relativeTime);
 const ProductCard = ({ product, handleClick, role="user" }) => {
     return (
         <div
-            className="relative mb-5 hover:opacity-90 hover:bg-primary mx-auto border-2 border-slate-300 p-4 rounded-3xl 
-            max-w-[480px] md:max-w-[450px]"
+            className={`relative mb-5 hover:opacity-90 hover:bg-primary mx-auto border-2 border-slate-300 p-4 rounded-3xl 
+            max-w-[480px] md:max-w-[450px] ${role === "admin" && "cursor-pointer"}`}
             onClick={role === "admin" ? () => handleClick(product) : null}
         >
             <div className="max-h-[300px] overflow-hidden">

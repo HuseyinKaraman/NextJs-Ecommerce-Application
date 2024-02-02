@@ -41,12 +41,15 @@ export default async function ProductViewPage({ params }) {
                 <Title addClass="text-[20px] md:text-[32px] text-center font-semibold my-5">{product?.title}</Title>
                 <div className="grid gap-4 lg:grid-cols-7">
                     <div className="lg:col-span-3">
-                        <ProductImage  product={product}/>
+                        <ProductImage product={product} />
                     </div>
                     <div className="lg:col-span-4 flex flex-col gap-10 p-5 shadow-2xl border-4 rounded-3xl">
                         <div className="card-body">
-                        <Title addClass="text-[25px] text-center font-bold my-2">Product Details</Title>
-                            <div className="card-text" dangerouslySetInnerHTML={{ __html: product?.description }} />
+                            <Title addClass="text-[25px] text-center font-bold my-2">Product Details</Title>
+                            <div
+                                className="card-text"
+                                dangerouslySetInnerHTML={{ __html: product?.description.replaceAll("\n", "<br />") }}
+                            />
                         </div>
                         <div className="card-footer !gap-4 !text-black !mt-auto">
                             <div className="card-footer__item !text-base ">
