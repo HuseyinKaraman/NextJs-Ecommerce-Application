@@ -77,7 +77,7 @@ const TagCreate = () => {
             {confirm && (
                 <PopConfirm
                     setConfirm={setConfirm}
-                    question={`Are you sure you want to delete ${updatingTag?.name}?`}
+                    message={`Are you sure you want to delete ${updatingTag?.name}?`}
                     sendRequest={deleteTag}
                     addClass={"md:!bottom-[400px] md:!left-80"}
                 />

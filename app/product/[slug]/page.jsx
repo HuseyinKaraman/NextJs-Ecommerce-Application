@@ -2,11 +2,12 @@
 import Title from "@/components/ui/Title";
 import axios from "axios";
 import dayjs from "dayjs";
-import Image from "next/image";
 import React from "react";
 import { toast } from "react-toastify";
 import relativeTime from "dayjs/plugin/relativeTime";
 import ProductImage from "@/components/product/ProductImage";
+import ProductLike from "@/components/product/ProductLike";
+
 
 dayjs.extend(relativeTime);
 
@@ -37,7 +38,7 @@ export default async function ProductViewPage({ params }) {
 
     return (
         <div className="w-full h-full min-h-screen bg-primary bg-opacity-55">
-            <div className="container mx-auto p-4">
+            <div className="container mx-auto p-4 relative">
                 <Title addClass="text-[20px] md:text-[32px] text-center font-semibold my-5">{product?.title}</Title>
                 <div className="grid gap-4 lg:grid-cols-7">
                     <div className="lg:col-span-3">
@@ -57,7 +58,7 @@ export default async function ProductViewPage({ params }) {
                                 <p>Tags: {product?.tags?.map((item) => item.name)?.join(",")}</p>
                             </div>
                             <div className="card-footer__item !text-base">
-                                <p>💓Likes</p>
+                                <ProductLike product={product} />
                                 <p>Posted: {dayjs(product?.createdAt).fromNow()}</p>
                             </div>
                             <div className="card-footer__item !text-base">

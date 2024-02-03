@@ -4,15 +4,6 @@ import Category from "./category";
 import Tag from "./tag";
 import User from "./user";
 
-const likeSchema = new mongoose.Schema(
-    {
-        user: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "User",
-        },
-    }, { timestamps: true }
-);
-
 const ratingSchema = new mongoose.Schema(
     {
         rating: {
@@ -28,7 +19,8 @@ const ratingSchema = new mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: "User",
         },
-    },{ timestamps: true }
+    },
+    { timestamps: true }
 );
 
 const productSchema = new mongoose.Schema(
@@ -100,7 +92,12 @@ const productSchema = new mongoose.Schema(
             type: Number,
             default: 0,
         },
-        likes: [likeSchema],
+        likes: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "User",
+            },
+        ],
         ratings: [ratingSchema],
     },
     {

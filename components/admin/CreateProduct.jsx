@@ -293,7 +293,7 @@ const AddProduct = () => {
             {confirm && (
                 <PopConfirm
                     setConfirm={setConfirm}
-                    question={`Are you sure you want to delete ${updatingProduct?.title.substring(0, 20)}..?`}
+                    message={`Are you sure you want to delete ${updatingProduct?.title.substring(0, 20)}..?`}
                     sendRequest={deleteProduct}
                 />
             )}

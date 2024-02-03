@@ -45,7 +45,7 @@ const CategoryCreate = () => {
             {confirm && (
                 <PopConfirm
                     setConfirm={setConfirm}
-                    question={`Are you sure you want to delete ${updatingCategory?.name}?`}
+                    message={`Are you sure you want to delete ${updatingCategory?.name}?`}
                     sendRequest={deleteCategory}
                     addClass={"md:!bottom-[400px] md:!left-80"}
                 />
