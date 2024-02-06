@@ -43,11 +43,18 @@ body {
     @apply text-[16px] px-2;
 }
 
+.card-body {
+    @apply h-[142px] overflow-hidden;
+}
+
 .card-footer {
     @apply mt-4 flex flex-col text-base gap-1 text-gray-500;
 }
 
 .card-footer__item {
-    @apply flex justify-between text-xs py-1 border-t-2 border-gray-500;
+    @apply flex justify-between items-center text-xs py-2 border-t-2 border-gray-500;
 }
 
+.star-active {
+    @apply text-yellow-500;
+}

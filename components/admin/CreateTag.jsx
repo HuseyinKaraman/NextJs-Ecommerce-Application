@@ -2,7 +2,7 @@
 import Input from "../form/Input";
 import { useTag } from "@/context/tag";
 import { useCategory } from "@/context/category";
-import PopConfirm from "../ui/PopConfirm";
+import PopConfirm from "../PopConfirm";
 import { useEffect, useState } from "react";
 
 const TagCreate = () => {

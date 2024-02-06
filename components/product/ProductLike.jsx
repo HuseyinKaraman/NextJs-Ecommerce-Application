@@ -4,23 +4,20 @@ import { useSession } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import PopConfirm from "../ui/PopConfirm";
+import PopConfirm from "../PopConfirm";
 
 const ProductLike = ({ product }) => {
-    const { data: session } = useSession();
+    const { data: session,status } = useSession();
     const [likes, setLikes] = useState(product?.likes);
     const [confirm, setConfirm] = useState(false);
 
     const router = useRouter();
     const pathname = usePathname();
 
-    const isLiked = likes.includes(session?.user?._id);
-
-    console.log(likes);
-    console.log(isLiked);
+    const isLiked = likes?.includes(session?.user?._id);
 
     const handleLike = async () => {
-        if (!session?.user) {
+        if (status !== "authenticated") {
             toast.error("Please login to like", {
                 position: "top-right",
                 autoClose: 1000,
@@ -41,7 +38,6 @@ const ProductLike = ({ product }) => {
                 });
 
                 if (res.status === 200) {
-                    console.log(res.data);
                     setLikes(res.data.likes);
                     toast.success("Product liked", {
                         position: "top-right",
@@ -93,16 +89,14 @@ const ProductLike = ({ product }) => {
 
     return (
         <>
-            {!likes.length ? (
-                <span onClick={handleLike} className="cursor-pointer hover:text-primary">
+            {!likes?.length ? (
+                <span onClick={handleLike} className="cursor-pointer hover:text-secondray">
                     <i className="fa-regular fa-heart"></i> Be the first to like this product
                 </span>
             ) : (
-                likes.map((like) => (
-                    <span key={like} onClick={handleLike} className="cursor-pointer hover:text-primary">
-                        <i className="fa-solid fa-heart !text-red-600"></i> {likes.length} people liked
-                    </span>
-                ))
+                <span onClick={handleLike} className="cursor-pointer hover:text-secondray">
+                    <i className="fa-solid fa-heart !text-red-600"></i> {likes.length} people liked
+                </span>
             )}
             {confirm && (
                 <PopConfirm

@@ -1,7 +1,7 @@
 "use client";
 import Input from "../form/Input";
 import { useCategory } from "@/context/category";
-import PopConfirm from "../ui/PopConfirm";
+import PopConfirm from "../PopConfirm";
 import { useState } from "react";
 
 const CategoryCreate = () => {

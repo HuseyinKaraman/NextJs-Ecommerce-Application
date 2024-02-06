@@ -2,7 +2,7 @@
 import React, { useEffect } from "react";
 import { useProduct } from "@/context/product";
 import { useRouter, useSearchParams } from "next/navigation";
-import Pagination from "../ui/Pagination";
+import Pagination from "../Pagination";
 import ProductCard from "../product/ProductCard";
 
 const ListProduct = () => {

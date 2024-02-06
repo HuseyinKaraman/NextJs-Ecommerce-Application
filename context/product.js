@@ -1,7 +1,7 @@
 "use client";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import Resizer from "react-image-file-resizer";
 
@@ -15,8 +15,27 @@ export const ProductProvider = ({ children }) => {
     const [updatingProduct, setUpdatingProduct] = useState(null);
     const [uploading, setUploading] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    //
+    const [showImagePreviewModal, setShowImagePreviewModal] = useState(false);
+    const [currentImagePreviewUrl, setCurrentImagePreviewUrl] = useState("");
+    // rating system
+    const [showRatingModal, setShowRatingModal] = useState(false);
+    const [currentRating, setCurrentRating] = useState(0);
+    const [comment, setComment] = useState("");
 
     const router = useRouter();
+
+    // modal for image preview and ratings
+    const openImagePreviewModal = (url) => {
+        setCurrentImagePreviewUrl(url);
+        setShowImagePreviewModal(true);
+    };
+
+    const closeModal = () => {
+        setShowImagePreviewModal(false);
+        setCurrentImagePreviewUrl("");
+        setShowRatingModal(false);
+    };
 
     const uploadImages = (e) => {
         const files = e.target.files;
@@ -259,13 +278,26 @@ export const ProductProvider = ({ children }) => {
                 setTotalPages,
                 uploading,
                 setUploading,
-                isLoading, setIsLoading,
+                isLoading,
+                setIsLoading,
                 uploadImages,
                 deleteImage,
                 createProduct,
                 fetchProducts,
                 deleteProduct,
                 updateProduct,
+                showImagePreviewModal,
+                setShowImagePreviewModal,
+                closeModal,
+                openImagePreviewModal,
+                currentImagePreviewUrl,
+                setCurrentImagePreviewUrl,
+                showRatingModal,
+                setShowRatingModal,
+                currentRating,
+                setCurrentRating,
+                comment,
+                setComment,
             }}
         >
             {children}

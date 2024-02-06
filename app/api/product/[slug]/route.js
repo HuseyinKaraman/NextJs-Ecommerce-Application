@@ -13,7 +13,12 @@ export async function GET(request, { params }) {
             .populate({
                 path: "tags",
                 select: "name parentCategory slug",
-            });
+            })
+            .populate({
+                path: "ratings.postedBy",
+                model: "User",
+                select: "name",
+            })
         return NextResponse.json(product);
     } catch (error) {
         return NextResponse.json(

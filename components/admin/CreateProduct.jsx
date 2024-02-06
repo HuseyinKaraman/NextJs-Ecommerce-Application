@@ -4,7 +4,7 @@ import Title from "../ui/Title";
 import { useProduct } from "@/context/product";
 import { useCategory } from "@/context/category";
 import { useTag } from "@/context/tag";
-import PopConfirm from "../ui/PopConfirm";
+import PopConfirm from "../PopConfirm";
 
 const AddProduct = () => {
     const {

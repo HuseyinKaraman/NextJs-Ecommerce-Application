@@ -1,6 +1,6 @@
 "use client";
 import ProductCard from "@/components/product/ProductCard";
-import Pagination from "@/components/ui/Pagination";
+import Pagination from "@/components/Pagination";
 import Title from "@/components/ui/Title";
 import axios from "axios";
 

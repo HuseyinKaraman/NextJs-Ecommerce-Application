@@ -3,6 +3,8 @@ import Image from "next/image";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import Link from "next/link";
+import ProductRating from "./ProductRating";
+import ProductLike from "./ProductLike";
 
 dayjs.extend(relativeTime);
 
@@ -10,7 +12,7 @@ const ProductCard = ({ product, handleClick, role="user" }) => {
     return (
         <div
             className={`relative mb-5 hover:opacity-90 hover:bg-primary mx-auto border-2 border-slate-300 p-4 rounded-3xl 
-            max-w-[480px] md:max-w-[450px] ${role === "admin" && "cursor-pointer"}`}
+            max-w-[480px] md:max-w-[450px] ${role === "admin" && "cursor-pointer"} transition-all`}
             onClick={role === "admin" ? () => handleClick(product) : null}
         >
             <div className="max-h-[300px] overflow-hidden">
@@ -45,16 +47,16 @@ const ProductCard = ({ product, handleClick, role="user" }) => {
                     <p>Tags: {product?.tags?.map((item) => item.name)?.join(",")}</p>
                 </div>
                 <div className="card-footer__item">
-                    <p>💓Likes</p>
+                    <ProductLike product={product} />
                     <p>Posted: {dayjs(product?.createdAt).fromNow()}</p>
                 </div>
                 <div className="card-footer__item">
-                    <p>⭐Stars</p>
                     <p>Brand: {product?.brand}</p>
+                    <ProductRating product={product} leaveRating={false} />
                 </div>
             </div>
         </div>
-    );
+    );  
 };
 
 export default ProductCard;

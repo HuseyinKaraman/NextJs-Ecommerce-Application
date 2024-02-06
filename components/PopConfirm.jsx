@@ -3,7 +3,7 @@ import OutsideClickHandler from "react-outside-click-handler";
 
 const PopConfirm = ({ message, setConfirm, sendRequest, addClass }) => {
     return (
-        <div className="flex justify-center items-end pb-20 fixed inset-0 z-10 w-full h-screen bg-slate-300 bg-opacity-25">
+        <div className="flex justify-center items-end pb-20 fixed inset-0 z-10 w-full h-screen bg-slate-500 bg-opacity-35">
             <OutsideClickHandler
                 onOutsideClick={() => {
                     setConfirm(false);
@@ -15,7 +15,7 @@ const PopConfirm = ({ message, setConfirm, sendRequest, addClass }) => {
                 ${addClass}
                 `}
                 >
-                    <p className="text-sm">{message}</p>
+                    <p className="text-sm text-white">{message}</p>
                     <div className="flex justify-between">
                         <button
                             className="btn text-sm cursor-pointer"

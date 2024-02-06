@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import relativeTime from "dayjs/plugin/relativeTime";
 import ProductImage from "@/components/product/ProductImage";
 import ProductLike from "@/components/product/ProductLike";
-
+import ProductRating from "@/components/product/ProductRating";
 
 dayjs.extend(relativeTime);
 
@@ -53,6 +53,7 @@ export default async function ProductViewPage({ params }) {
                             />
                         </div>
                         <div className="card-footer !gap-4 !text-black !mt-auto">
+                            <span className="p-2 mb-2 bg-blue-300">Brand: {product?.brand}</span>
                             <div className="card-footer__item !text-base ">
                                 <p>Category: {product?.category?.name}</p>
                                 <p>Tags: {product?.tags?.map((item) => item.name)?.join(",")}</p>
@@ -62,8 +63,7 @@ export default async function ProductViewPage({ params }) {
                                 <p>Posted: {dayjs(product?.createdAt).fromNow()}</p>
                             </div>
                             <div className="card-footer__item !text-base">
-                                <p>⭐Stars</p>
-                                <p>Brand: {product?.brand}</p>
+                                <ProductRating product={product} />
                             </div>
                         </div>
                     </div>

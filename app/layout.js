@@ -1,6 +1,6 @@
 "use client";
 import "./globals.css";
-import Header from "@/components/Header";
+import Header from "@/components/ui/Header";
 import { ToastContainer } from "react-toastify";
 import { SessionProvider } from "next-auth/react";
 import { CategoryProvider } from "@/context/category";

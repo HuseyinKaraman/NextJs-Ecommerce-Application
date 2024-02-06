@@ -21,8 +21,6 @@ export async function PUT(request) {
     const user = await currentUser();
     const { productId } = await request.json();
 
-    console.log(user._id);
-
     try {
         const updated = await Product.findByIdAndUpdate(
             productId,
