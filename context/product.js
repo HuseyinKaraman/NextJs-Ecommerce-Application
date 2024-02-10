@@ -15,13 +15,15 @@ export const ProductProvider = ({ children }) => {
     const [updatingProduct, setUpdatingProduct] = useState(null);
     const [uploading, setUploading] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-    //
+    // image preview modal
     const [showImagePreviewModal, setShowImagePreviewModal] = useState(false);
     const [currentImagePreviewUrl, setCurrentImagePreviewUrl] = useState("");
     // rating system
     const [showRatingModal, setShowRatingModal] = useState(false);
     const [currentRating, setCurrentRating] = useState(0);
     const [comment, setComment] = useState("");
+    // brands 
+    const [brands, setBrands] = useState([]);
 
     const router = useRouter();
 
@@ -206,6 +208,23 @@ export const ProductProvider = ({ children }) => {
         }
     };
 
+    const fetchBrands = async () => {
+        try {
+            const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/product/brands`);
+            if (res.status === 200) {
+                setBrands(res?.data);
+            }
+        } catch (error) {
+            toast.error("Something went wrong", {
+                position: "top-right",
+                autoClose: 1000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+            });
+        }
+    }
+
     const deleteProduct = async () => {
         setIsLoading(true);
         try {
@@ -270,6 +289,7 @@ export const ProductProvider = ({ children }) => {
                 setProduct,
                 products,
                 setProducts,
+                brands,
                 updatingProduct,
                 setUpdatingProduct,
                 currentPage,
@@ -284,6 +304,7 @@ export const ProductProvider = ({ children }) => {
                 deleteImage,
                 createProduct,
                 fetchProducts,
+                fetchBrands,
                 deleteProduct,
                 updateProduct,
                 showImagePreviewModal,

@@ -58,3 +58,27 @@ body {
 .star-active {
     @apply text-yellow-500;
 }
+
+
+.filter-scroll {
+    @apply min-h-[90px] max-h-[200px] overflow-x-hidden overflow-y-auto p-2 scroll-m-1;
+}
+
+.scroll-bar {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(107,114,128,0.75) #dfe9eb;
+}
+
+.scroll-bar::-webkit-scrollbar {
+    height: 10px;
+    width: 10px;
+}
+.scroll-bar::-webkit-scrollbar-track {
+    border-radius: 5px;
+    background-color: #060606;
+}
+
+.scroll-bar::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background-color: #060606;
+}

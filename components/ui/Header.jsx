@@ -8,7 +8,12 @@ const Header = () => {
 
     return (
         <nav className="flex py-4 text-[18px] md:text-xl px-5 justify-between text-white  bg-gray-600">
-            <Link href={"/"}>🛒ECOM</Link>
+            <div className="flex gap-10">
+                <Link href={"/"} className="">
+                    🛒ECOM
+                </Link>
+                <Link href={"/shop"}>SHOP</Link>
+            </div>
             <div className="flex justify-end items-center gap-x-3 md:gap-5">
                 {status === "authenticated" ? (
                     <>

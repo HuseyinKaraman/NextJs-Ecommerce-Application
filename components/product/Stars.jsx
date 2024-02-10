@@ -6,9 +6,9 @@ const Stars = ({ rating }) => {
 
     for (let i = 1; i <= 5; i++) {
         if (i <= rating) {
-            stars.push(<FaStar key={i}  className="!text-red-600"/>);
+            stars.push(<FaStar key={i}  className="star-active"/>);
         } else if (i === Math.ceil(rating) && !Number.isInteger(rating)) {
-            stars.push(<FaStarHalfAlt key={i} className="!text-red-600"/>);
+            stars.push(<FaStarHalfAlt key={i} className="star-active"/>);
         } else {
             stars.push(<FaRegStar key={i} className="!text-secondray !align-middle" />);
         }

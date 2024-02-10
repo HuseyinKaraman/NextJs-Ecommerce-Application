@@ -55,6 +55,24 @@ export const CategoryProvider = ({ children }) => {
         }
     };
 
+    const fetchCategoriesPublic = async () => {
+        try {
+            const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/category`);
+            if (res.status === 200) {
+                setCategories(res.data);
+            }
+        } catch (error) {
+            console.log(error);
+            toast.error("Something went wrong", {
+                position: "top-right",
+                autoClose: 1000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+            });
+        }
+    };
+
     const deleteCategory = async () => {
         try {
             const res = await axios.delete(
@@ -119,6 +137,7 @@ export const CategoryProvider = ({ children }) => {
                 setUpdatingCategory,
                 createCategory,
                 fetchCategories,
+                fetchCategoriesPublic,
                 deleteCategory,
                 updateCategory,
             }}

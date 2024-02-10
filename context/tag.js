@@ -57,6 +57,23 @@ export const TagProvider = ({ children }) => {
             });
         }
     };
+    const fetchTagsPublic = async () => {
+        try {
+            const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/tag`);
+            if (res.status === 200) {
+                setTags(res.data);
+            }
+        } catch (error) {
+            console.log(error);
+            toast.error("Error fetching tag", {
+                position: "top-right",
+                autoClose: 1000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+            });
+        }
+    };
 
     const deleteTag = async () => {
         try {
@@ -126,6 +143,7 @@ export const TagProvider = ({ children }) => {
                 setUpdatingTag,
                 createTag,
                 fetchTags,
+                fetchTagsPublic,
                 deleteTag,
                 updateTag,
             }}

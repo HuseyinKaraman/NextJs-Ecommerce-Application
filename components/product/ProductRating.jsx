@@ -25,11 +25,9 @@ const ProductRating = ({ product,leaveRating=true }) => {
 
     useEffect(() => {
         if (alreadyRated) {
-            console.log("alreadyRated", currentRating);
             setCurrentRating(alreadyRated?.rating);
             setComment(alreadyRated?.comment);
         } else {
-            console.log(" not alreadyRated", currentRating);
             setCurrentRating(0);
             setComment("");
         }

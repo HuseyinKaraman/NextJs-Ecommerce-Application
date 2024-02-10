@@ -30,7 +30,6 @@ const PopConfirm = ({ message, setConfirm, sendRequest, addClass }) => {
                         <button
                             className="btn text-sm cursor-pointer"
                             onClick={() => {
-                                console.log("no");
                                 setConfirm(prev => !prev);
                             }}
                             type="button"
