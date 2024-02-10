@@ -11,7 +11,7 @@ dayjs.extend(relativeTime);
 const ProductCard = ({ product, handleClick, role="user" }) => {
     return (
         <div
-            className={`relative mb-5 hover:opacity-90 hover:bg-primary mx-auto border-2 border-slate-300 p-4 rounded-3xl 
+            className={`relative mb-5 hover:opacity-90 hover:bg-primary mx-auto border-2 border-slate-300 p-4 
             max-w-[480px] md:max-w-[450px] ${role === "admin" && "cursor-pointer"} transition-all`}
             onClick={role === "admin" ? () => handleClick(product) : null}
         >
@@ -26,8 +26,8 @@ const ProductCard = ({ product, handleClick, role="user" }) => {
             </div>
             <div className="card-body">
                 <div className="card-title my-2">
-                    <Link href={`/product/${product?.slug}`} className="text-xl font-semibold text-blue-600 cursor-pointer">
-                        ${product?.price.toFixed(2)} {product?.title.substring(0, 50)}...
+                    <Link href={`/product/${product?.slug}`} className="text-xl text-blue-600 cursor-pointer hover:underline">
+                        <strong>${product?.price.toFixed(2)}</strong> {product?.title.substring(0, 50)}...
                     </Link>
                 </div>
 

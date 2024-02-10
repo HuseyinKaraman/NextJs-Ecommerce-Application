@@ -44,7 +44,7 @@ body {
 }
 
 .card-body {
-    @apply h-[142px] overflow-hidden;
+    @apply h-[150px] overflow-hidden;
 }
 
 .card-footer {

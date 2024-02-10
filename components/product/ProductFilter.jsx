@@ -56,13 +56,10 @@ const ProductFilter = ({ searchParams }) => {
 
     return (
         <div>
-            <div className="rounded-lg mb-2 bg-gray-300 flex justify-between text-xl font-serif p-2">
-                <p>Filter Product</p>
+            <div className="mb-1 flex justify-between text-xl font-serif p-2">
+                <p>Filter Products</p>
                 <div className="flex gap-3 items-center">
-                    <Link href={"/shop"} className="inline-block text-sm text-blue-400 underline">
-                        Clear Filters
-                    </Link>
-                    <div className=" md:hidden">
+                    <div className="lg:hidden">
                         {openFilterMenu ? (
                             <span onClick={() => setOpenFilterMenu(false)} className="cursor-pointer">
                                 X
@@ -76,9 +73,13 @@ const ProductFilter = ({ searchParams }) => {
                 </div>
             </div>
 
-            <div className={`flex flex-col ${openFilterMenu ? "block" : "hidden md:block"}`}>
-                <p className="p-1 px-2 text-xl w-full mb-3 bg-cyan-500 rounded-md">Price</p>
-                <div className="flex flex-wrap mb-4 gap-2 relative">
+            <div className={`flex flex-col ${openFilterMenu ? "block" : "hidden lg:block"}`}>
+                <Link href={"/shop"} className="inline-block text-red-500 mb-3 font-semibold text-[18px] pl-2">
+                    Clear Filters
+                </Link>
+
+                <p className="p-1 px-2 text-xl w-full mb-3 bg-sky-300">Price</p>
+                <div className="flex flex-wrap mb-4 gap-2 justify-around  relative">
                     {priceRanges.map((range, index) => {
                         const url = {
                             pathname,
@@ -116,8 +117,8 @@ const ProductFilter = ({ searchParams }) => {
                     })}
                 </div>
 
-                <p className="p-1 px-2 text-xl w-full mb-3  bg-cyan-500 rounded-md">Rating</p>
-                <div className="flex flex-wrap mb-4 gap-2 justify-around relative">
+                <p className="p-1 px-2 text-xl w-full mb-3  bg-sky-300">Rating</p>
+                <div className="flex flex-wrap mb-4 gap-2 justify-around  relative">
                     {[5, 4, 3, 2, 1].map((ratingValue) => {
                         const isActive = String(ratings) === String(ratingValue);
                         const url = {
@@ -156,7 +157,7 @@ const ProductFilter = ({ searchParams }) => {
                     })}
                 </div>
 
-                <p className="p-1 px-2 text-xl mb-3 w-full bg-cyan-500 rounded-md">Categories</p>
+                <p className="p-1 px-2 text-xl mb-3 w-full bg-sky-300">Categories</p>
                 <div className="flex flex-wrap gap-2 mb-4 filter-scroll scroll-bar">
                     {categories?.length > 0 &&
                         categories?.map((c) => {
@@ -197,8 +198,8 @@ const ProductFilter = ({ searchParams }) => {
 
                 {category && filterTags?.length > 0 && (
                     <>
-                        <p className="p-1 px-2 text-xl mb-3 w-full bg-cyan-500 rounded-md">Tags</p>
-                        <div className="flex flex-wrap gap-2 mb-4 items-start filter-scroll !min-h-[50px] scroll-bar">
+                        <p className="p-1 px-2 text-xl mb-3 w-full bg-sky-300">Tags</p>
+                        <div className="flex flex-wrap gap-2 mb-4 justify-around items-start filter-scroll !min-h-[50px] scroll-bar">
                             {filterTags?.map((t) => {
                                 const isActive = t?._id === tag;
                                 const url = {
@@ -236,8 +237,8 @@ const ProductFilter = ({ searchParams }) => {
                     </>
                 )}
 
-                <p className="p-1 px-2 text-xl mb-3 w-full bg-cyan-500 rounded-md">Brands</p>
-                <div className="flex flex-wrap gap-2 mb-4 filter-scroll !min-h-[50px] scroll-bar">
+                <p className="p-1 px-2 text-xl mb-3 w-full bg-sky-300">Brands</p>
+                <div className="flex flex-wrap gap-2 mb-4 justify-around filter-scroll !min-h-[50px] scroll-bar">
                     {brands?.length > 0 &&
                         brands?.map((b, index) => {
                             const isActive = b === brand;
