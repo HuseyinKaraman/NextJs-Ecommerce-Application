@@ -22,8 +22,11 @@ export const ProductProvider = ({ children }) => {
     const [showRatingModal, setShowRatingModal] = useState(false);
     const [currentRating, setCurrentRating] = useState(0);
     const [comment, setComment] = useState("");
-    // brands 
+    // brands
     const [brands, setBrands] = useState([]);
+    // text based search
+    const [productSearchQuery, setProductSearchQuery] = useState("");
+    const [productSearchResults, setProductSearchResults] = useState([]);
 
     const router = useRouter();
 
@@ -223,7 +226,7 @@ export const ProductProvider = ({ children }) => {
                 pauseOnHover: true,
             });
         }
-    }
+    };
 
     const deleteProduct = async () => {
         setIsLoading(true);
@@ -282,6 +285,30 @@ export const ProductProvider = ({ children }) => {
         }
     };
 
+    const fetchProductSearchResults = async (e) => {
+        e?.preventDefault();
+        try {
+            const res = await axios.get(
+                `${process.env.NEXT_PUBLIC_API_URL}/search/products?productSearchQuery=${productSearchQuery}`
+            );
+
+            if (res.status !== 200) {
+                throw new Error("Network response was not ok for search results");
+            }
+
+            setProductSearchResults(res?.data?.products);
+            router.push(`/search/products?productSearchQuery=${productSearchQuery}`);
+        } catch (error) {
+            toast.error("Something went wrong", {
+                position: "top-right",
+                autoClose: 1000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+            });
+        }
+    };
+
     return (
         <ProductContext.Provider
             value={{
@@ -319,6 +346,11 @@ export const ProductProvider = ({ children }) => {
                 setCurrentRating,
                 comment,
                 setComment,
+                productSearchQuery,
+                setProductSearchQuery,
+                productSearchResults,
+                setProductSearchResults,
+                fetchProductSearchResults,
             }}
         >
             {children}
