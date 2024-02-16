@@ -1,10 +1,10 @@
 "use client";
-import Title from "@/components/ui/Title";
 import axios from "axios";
 import dayjs from "dayjs";
-import React from "react";
-import { toast } from "react-toastify";
 import relativeTime from "dayjs/plugin/relativeTime";
+import { toast } from "react-toastify";
+import Title from "@/components/ui/Title";
+import UserReviews from "@/components/product/UserReviews";
 import ProductImage from "@/components/product/ProductImage";
 import ProductLike from "@/components/product/ProductLike";
 import ProductRating from "@/components/product/ProductRating";
@@ -69,8 +69,12 @@ export default async function ProductViewPage({ params }) {
                     </div>
                 </div>
 
-                <div className="grid justify-center my-8">
+                <div className="grid justify-center my-4">
                     <Title addClass="text-[25px] text-center font-bold my-2">Related Products</Title>
+                </div>
+
+                <div className="grid gap-4 justify-center my-5">
+                    <UserReviews reviews={product?.ratings} />
                 </div>
             </div>
         </div>
