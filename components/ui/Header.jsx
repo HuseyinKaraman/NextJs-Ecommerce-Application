@@ -2,10 +2,13 @@
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 import { useProduct } from "@/context/product";
+import { RiShoppingCartLine } from "react-icons/ri";
+import { useCart } from "@/context/cart";
 
 const Header = () => {
     const { data: session, status } = useSession();
     const { productSearchQuery, setProductSearchQuery, fetchProductSearchResults } = useProduct();
+    const { cartItems } = useCart();
 
     return (
         <nav className="flex gap-y-5 flex-wrap md:flex-nowrap py-4 text-[18px] md:text-xl px-5 justify-between text-white bg-gray-600">
@@ -40,6 +43,10 @@ const Header = () => {
             </form>
 
             <div className="flex justify-end items-center gap-x-3 md:gap-5 order-2 md:order-3">
+                <Link href={"/cart"} className="relative">
+                        <RiShoppingCartLine />
+                        {cartItems.length > 0 && <span className="absolute -top-2 -right-3 text-xs text-white bg-red-600 rounded-full px-1">{cartItems.length}</span>}
+                </Link>
                 {status === "authenticated" ? (
                     <>
                         <Link href={`/dashboard/${session?.user?.role}`}>

@@ -5,13 +5,14 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import Link from "next/link";
 import ProductRating from "./ProductRating";
 import ProductLike from "./ProductLike";
+import AddToCart from "./AddToCart";
 
 dayjs.extend(relativeTime);
 
-const ProductCard = ({ product, handleClick, role="user" }) => {
+const ProductCard = ({ product, handleClick, role = "user" }) => {
     return (
         <div
-            className={`relative mb-5 hover:opacity-90 hover:bg-primary mx-auto border-2 border-slate-300 p-4 
+            className={`relative mb-5 mx-auto border-2 border-slate-300 p-4 
             max-w-[480px] md:max-w-[450px] ${role === "admin" && "cursor-pointer"} transition-all`}
             onClick={role === "admin" ? () => handleClick(product) : null}
         >
@@ -26,7 +27,10 @@ const ProductCard = ({ product, handleClick, role="user" }) => {
             </div>
             <div className="card-body">
                 <div className="card-title my-2">
-                    <Link href={`/product/${product?.slug}`} className="text-xl text-blue-600 cursor-pointer hover:underline">
+                    <Link
+                        href={`/product/${product?.slug}`}
+                        className="text-xl text-blue-600 cursor-pointer hover:underline"
+                    >
                         <strong>${product?.price.toFixed(2)}</strong> {product?.title.substring(0, 50)}...
                     </Link>
                 </div>
@@ -50,13 +54,15 @@ const ProductCard = ({ product, handleClick, role="user" }) => {
                     <ProductLike product={product} />
                     <p>Posted: {dayjs(product?.createdAt).fromNow()}</p>
                 </div>
-                <div className="card-footer__item">
+                <div className="card-footer__item border-b-2 mb-2">
                     <p>Brand: {product?.brand}</p>
                     <ProductRating product={product} leaveRating={false} />
                 </div>
             </div>
+
+            <AddToCart product={product} />
         </div>
-    );  
+    );
 };
 
 export default ProductCard;

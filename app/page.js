@@ -6,6 +6,7 @@ import axios from "axios";
 
 // export const revalidate = 10; //revalidate every 10 seconds
 
+
 async function getProducts(searchParams) {
     const searchQuery = new URLSearchParams({
         page: searchParams?.page || 1,
@@ -20,7 +21,7 @@ async function getProducts(searchParams) {
 }
 
 // eslint-disable-next-line @next/next/no-async-client-component
-export default async function Home({ searchParams }) {
+export default async function Page({ searchParams }) {
     const { products, currentPage, totalPages } = await getProducts(searchParams);
 
     return (

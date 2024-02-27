@@ -9,11 +9,24 @@ import ProductImage from "@/components/product/ProductImage";
 import ProductLike from "@/components/product/ProductLike";
 import ProductRating from "@/components/product/ProductRating";
 
+
 dayjs.extend(relativeTime);
 
 export const revalidate = 1;
 
-async function getProducts(slug) {
+export async function generateMetadata({ params }) {
+    const product = await getProduct(params?.slug);
+
+    return {
+        title: product?.title,
+        description: product?.description.substring(0, 160),
+        openGraph: {
+            image: product?.images[0]?.secure_url,
+        },
+    };
+}
+
+async function getProduct(slug) {
     try {
         const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/product/${slug}`);
         if (res.status === 200) {
@@ -34,7 +47,7 @@ async function getProducts(slug) {
 
 // eslint-disable-next-line @next/next/no-async-client-component
 export default async function ProductViewPage({ params }) {
-    const product = await getProducts(params?.slug);
+    const product = await getProduct(params?.slug);
 
     return (
         <div className="w-full h-full min-h-screen bg-primary bg-opacity-55">
