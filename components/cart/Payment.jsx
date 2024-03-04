@@ -16,18 +16,17 @@ const Payment = ({ onPrevStep }) => {
                 _id: item._id,
                 quantity: item.quantity,
             }));
-            
-            const response = axios.post(`${process.env.NEXT_PUBLIC_API_URL}/user/stripe/session}`, {
-                cartData,
-            })
+
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/user/stripe/session`, {
+                cartItems: cartData,
+            });
 
             if (response.status === 200) {
-                window.location.href = response.data.url;
-            }else{
+                window.location.href = response.data;
+            } else {
                 toast.error("Something went wrong. Please try again");
                 setLoading(false);
             }
-
         } catch (error) {
             console.log(error);
             toast.error("Something went wrong. Please try again");
@@ -52,11 +51,7 @@ const Payment = ({ onPrevStep }) => {
                     <button className="btn-danger-outline col-span-6" onClick={onPrevStep}>
                         PREVIOUS
                     </button>
-                    <button
-                        className="btn-success col-span-6"
-                        onClick={handleClick}
-                        disabled={loading}
-                    >
+                    <button className="btn-success col-span-6" onClick={handleClick} disabled={loading}>
                         {loading ? "Processing.." : "PLACE ORDER"}
                     </button>
                 </div>
