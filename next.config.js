@@ -19,6 +19,7 @@ const nextConfig = {
         STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
         STRIPE_TAX_RATE: process.env.STRIPE_TAX_RATE,
         STRIPE_SHIPPING_RATE: process.env.STRIPE_SHIPPING_RATE,
+        STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET,
         DOMAIN: process.env.DOMAIN,
     },
 };

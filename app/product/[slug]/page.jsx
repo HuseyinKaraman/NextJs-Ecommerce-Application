@@ -8,7 +8,8 @@ import UserReviews from "@/components/product/UserReviews";
 import ProductImage from "@/components/product/ProductImage";
 import ProductLike from "@/components/product/ProductLike";
 import ProductRating from "@/components/product/ProductRating";
-
+import CouponCode from "@/components/product/CouponCode";
+import AddToCart from "@/components/product/AddToCart";
 
 dayjs.extend(relativeTime);
 
@@ -58,10 +59,11 @@ export default async function ProductViewPage({ params }) {
                         <ProductImage product={product} />
                     </div>
                     <div className="lg:col-span-4 flex flex-col gap-10 p-5 shadow-2xl border-4 rounded-3xl">
-                        <div className="card-body">
+                        <div className="">
                             <Title addClass="text-[25px] text-center font-bold my-2">Product Details</Title>
+                            <CouponCode product={product} />
                             <div
-                                className="card-text"
+                                className="card-text max-h-[400px] overflow-auto scroll-bar"
                                 dangerouslySetInnerHTML={{ __html: product?.description.replaceAll("\n", "<br />") }}
                             />
                         </div>
@@ -77,6 +79,9 @@ export default async function ProductViewPage({ params }) {
                             </div>
                             <div className="card-footer__item !text-base">
                                 <ProductRating product={product} />
+                            </div>
+                            <div className="card-footer__item w-full mx-auto">
+                                <AddToCart product={product} />
                             </div>
                         </div>
                     </div>

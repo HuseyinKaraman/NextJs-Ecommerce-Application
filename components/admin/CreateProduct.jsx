@@ -38,7 +38,7 @@ const AddProduct = () => {
     useEffect(() => {
         setFilterTags(tags?.filter((tag) => tag.parentCategory === updatingProduct?.category?._id) ?? []);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[tags]);
+    }, [tags]);
 
     return categories.length > 0 && tags.length > 0 ? (
         <div className="w-full h-full text-black md:pr-5">
@@ -96,6 +96,22 @@ const AddProduct = () => {
                             }
                         />
                     </div>
+                    {updatingProduct && (
+                        <div className="flex flex-col flex-1">
+                            <span className="font-semibold mb-2">Previous Price</span>
+                            <input
+                                type="number"
+                                name="previousPrice"
+                                min={1}
+                                placeholder="Previous Price"
+                                className="border-2 border-black p-2 outline-none"
+                                value={updatingProduct?.previousPrice}
+                                onChange={(e) =>
+                                    setUpdatingProduct({ ...updatingProduct, previousPrice: e.target.value })
+                                }
+                            />
+                        </div>
+                    )}
                     <div className="flex flex-col flex-1">
                         <span className="font-semibold mb-2">Stock</span>
                         <input

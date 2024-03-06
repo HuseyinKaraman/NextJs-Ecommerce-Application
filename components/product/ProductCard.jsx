@@ -31,7 +31,15 @@ const ProductCard = ({ product, handleClick, role = "user" }) => {
                         href={`/product/${product?.slug}`}
                         className="text-xl text-blue-600 cursor-pointer hover:underline"
                     >
-                        <strong>${product?.price.toFixed(2)}</strong> {product?.title.substring(0, 50)}...
+                        <strong>
+                            ${product?.price.toFixed(2)}{" "}
+                            {product?.previousPrice > product?.price && (
+                                    <span className="text-danger line-through decoration-2">
+                                        (${product?.previousPrice.toFixed(2)})
+                                    </span>
+                            )}
+                        </strong>{" "}
+                        {product?.title.substring(0, 50)}...
                     </Link>
                 </div>
 

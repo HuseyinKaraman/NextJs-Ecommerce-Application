@@ -6,19 +6,25 @@ import { useCart } from "@/context/cart";
 import axios from "axios";
 
 const Payment = ({ onPrevStep }) => {
-    const { cartItems } = useCart();
+    const { cartItems, validCoupon, couponCode } = useCart();
     const [loading, setLoading] = useState(false);
 
     const handleClick = async () => {
         setLoading(true);
         try {
+            const payload = {};
             const cartData = cartItems.map((item) => ({
                 _id: item._id,
                 quantity: item.quantity,
             }));
 
+            payload.cartItems = cartData;
+            if (validCoupon) {
+                payload.couponCode = couponCode;
+            }
+
             const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/user/stripe/session`, {
-                cartItems: cartData,
+                ...payload,
             });
 
             if (response.status === 200) {

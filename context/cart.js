@@ -1,12 +1,16 @@
 "use client";
 import { createContext, useContext, useEffect, useState } from "react";
-// import axios from "axios";
-// import { toast } from "react-toastify";
+import { toast } from "react-toastify";
+import axios from "axios";
 
 export const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
     const [cartItems, setCartItems] = useState([]);
+    // coupon code
+    const [couponCode, setCouponCode] = useState("");
+    const [percentOff, setPercentOff] = useState(0);
+    const [validCoupon, setValidCoupon] = useState(false);
 
     // load cart ıtems from local storage
     useEffect(() => {
@@ -58,6 +62,31 @@ export const CartProvider = ({ children }) => {
         localStorage.removeItem("cartItems");
     };
 
+    // apply coupon
+    const handleCoupon = async (coupon) => {
+        try {
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/stripe/coupon`, {
+                couponCode: coupon,
+            });
+
+            if (response.status === 200) {
+                setValidCoupon(true);
+                setPercentOff(response?.data?.percent_off);
+                toast.success(`${response?.data?.name} coupon applied`, {
+                    position: "top-right",
+                })
+            }
+
+        } catch (error) {
+            console.log(error);
+            setValidCoupon(false);
+            setPercentOff(0);
+            toast.error("Invalid coupon code", {
+                position: "top-right",
+            });
+        }
+    }
+
     return (
         <CartContext.Provider
             value={{
@@ -66,6 +95,11 @@ export const CartProvider = ({ children }) => {
                 removeFromCart,
                 updateQuantity,
                 clearCart,
+                couponCode,
+                percentOff,
+                validCoupon,
+                setCouponCode,
+                handleCoupon,
             }}
         >
             {children}

@@ -39,7 +39,7 @@ const AddToCart = ({ product, reviewAndCheckout=true }) => {
     };
 
     return (
-        <div className="flex">
+        <div className="flex w-full">
             {cartItems?.some((item) => item?._id === product?._id) ? (
                 <>
                     <div className="flex justify-between gap-4 mx-auto items-center w-full">
@@ -50,7 +50,7 @@ const AddToCart = ({ product, reviewAndCheckout=true }) => {
                         <input
                             type="number"
                             value={quantity}
-                            className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none w-36 md:w-52 font-semibold text-xl text-center border-b-2 pb-2 border-gray-500"
+                            className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none w-36 md:w-2/3 font-semibold text-xl text-center border-b-2 pb-2 border-gray-500"
                             onChange={(e) => setQuantity(parseInt(e.target.value, 10))}
                             min="1"
                         />
@@ -60,7 +60,7 @@ const AddToCart = ({ product, reviewAndCheckout=true }) => {
                         </button>
                     </div>
                     {cartItems?.length > 0 && reviewAndCheckout && (
-                        <Link href="/cart" className="fixed z-10 right-5 bottom-5 bg-rose-600 pt-2 text-white h-10 p-2 text-center rounded-lg" onClick={handleAddToCart}>
+                        <Link href="/cart" className="fixed z-30 right-5 bottom-5 bg-rose-600 pt-2 text-white h-10 p-2 text-center rounded-lg" onClick={handleAddToCart}>
                             <MdOutlineShoppingCartCheckout className="inline-block text-2xl align-middle"/>
                         </Link>
                     )}

@@ -2,8 +2,7 @@ import { NextResponse } from "next/server";
 import dbConnect from "@/utils/dbConnect";
 import { currentUser } from "@/utils/currentUser";
 import Product from "@/models/product";
-
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+import { stripe } from "@/utils/stripe";
 
 export async function POST(request) {
     await dbConnect();
@@ -48,7 +47,7 @@ export async function POST(request) {
             },
             shipping_options: [{ shipping_rate: process.env.STRIPE_SHIPPING_RATE }],
             shipping_address_collection: { allowed_countries: ["TR"] },
-            discount: [{ coupon: couponCode }],
+            discounts: [{ coupon: couponCode }],
             customer_email: user.email,
         });
 
