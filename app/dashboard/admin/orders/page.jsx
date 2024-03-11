@@ -176,7 +176,6 @@ const AdminOrders = () => {
                                                         onChange={(e) => handleStatusChange(e.target.value, order._id)}
                                                         disabled={order?.refunded}
                                                     >
-                                                        {/* "Not Processed", "Processing", "Dispatched", "Refunded", "Cancelled","Delivered" */}
                                                         <option value="Not Processed">Not Processed</option>
                                                         <option value="Processing">Processing</option>
                                                         <option value="Dispatched">Dispatched</option>
