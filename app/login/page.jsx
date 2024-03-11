@@ -93,13 +93,13 @@ const Login = () => {
                     </Link>
                 </form>
                 <div className="flex gap-4 w-full !text-[16px]">
-                    <button
+                    {/* <button
                         className="btn-secondary w-full !rounded-none !text-white"
                         type="button"
                         onClick={() => signIn("github", { callbackUrl })}
                     >
                         <i className="fa-brands fa-github mr-2"></i>GITHUB
-                    </button>
+                    </button> */}
                     <button
                         className="btn-primary-2 !bg-red-600 !rounded-none w-full !text-white"
                         type="button"
