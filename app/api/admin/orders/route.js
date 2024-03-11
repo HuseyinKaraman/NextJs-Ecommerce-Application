@@ -1,15 +1,14 @@
 import { NextResponse } from "next/server";
-import dbConnect from "@/utils/dbConnect";
+import { dbConnect } from "@/utils/dbConnect";
 import Order from "@/models/order";
 import queryString from "query-string";
 
 export async function GET(req) {
-    await dbConnect();
-    const searchParams = queryString.parseUrl(req.url).query;
-    const { page } = searchParams || {};
-    const pageSize = 3;
-
     try {
+        await dbConnect();
+        const searchParams = queryString.parseUrl(req.url).query;
+        const { page } = searchParams || {};
+        const pageSize = 3;
         const currentPage = Number(page) || 1;
         const skip = (currentPage - 1) * pageSize;
         const totalOrders = await Order.countDocuments({});

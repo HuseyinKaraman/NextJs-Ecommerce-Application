@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import dbConnect from "@/utils/dbConnect";
+import { dbConnect } from "@/utils/dbConnect";
 import Order from "@/models/order";
 import Product from "@/models/product";
 import { currentUser } from "@/utils/currentUser";

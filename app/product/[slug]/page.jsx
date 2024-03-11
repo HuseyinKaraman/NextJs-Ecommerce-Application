@@ -13,19 +13,19 @@ import AddToCart from "@/components/product/AddToCart";
 
 dayjs.extend(relativeTime);
 
-export const revalidate = 1;
+// export const revalidate = 1;
 
-export async function generateMetadata({ params }) {
-    const product = await getProduct(params?.slug);
+// export async function generateMetadata({ params }) {
+//     const product = await getProduct(params?.slug);
 
-    return {
-        title: product?.title,
-        description: product?.description.substring(0, 160),
-        openGraph: {
-            image: product?.images[0]?.secure_url,
-        },
-    };
-}
+//     return {
+//         title: product?.title,
+//         description: product?.description.substring(0, 160),
+//         openGraph: {
+//             image: product?.images[0]?.secure_url,
+//         },
+//     };
+// }
 
 async function getProduct(slug) {
     try {

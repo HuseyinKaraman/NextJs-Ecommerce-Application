@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import dbConnect from "@/utils/dbConnect";
+import { dbConnect } from "@/utils/dbConnect";
 import { currentUser } from "@/utils/currentUser";
 import Product from "@/models/product";
 import { stripe } from "@/utils/stripe";

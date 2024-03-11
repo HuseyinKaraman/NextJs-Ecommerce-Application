@@ -1,5 +1,5 @@
 import Product from "@/models/product";
-import dbConnect from "@/utils/dbConnect";
+import { dbConnect } from "@/utils/dbConnect";
 import { NextResponse } from "next/server";
 import queryString from "query-string";
 

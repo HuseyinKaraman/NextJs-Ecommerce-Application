@@ -1,13 +1,13 @@
 import { NextResponse } from "next/server";
-import dbConnect from "@/utils/dbConnect";
+import { dbConnect } from "@/utils/dbConnect";
 import Product from "@/models/product";
 import Category from "@/models/category";
 import Tag from "@/models/tag";
 import queryString from "query-string";
 
 export async function GET(request) {
-    await dbConnect();
     try {
+        await dbConnect();
         const { productSearchQuery } = queryString.parseUrl(request.url).query;
         // search categories and tags based on productSearchQuery  , limit can be added
         const [categories, tags] = await Promise.all([

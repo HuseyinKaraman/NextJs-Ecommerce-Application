@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import dbConnect from "@/utils/dbConnect";
+import { dbConnect } from "@/utils/dbConnect";
 import { stripe } from "@/utils/stripe";
 
 export async function POST(request) {

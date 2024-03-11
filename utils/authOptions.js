@@ -2,7 +2,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 import User from "@/models/user";
 import bcrypt from "bcrypt";
-import dbConnect from "./dbConnect";
+import { dbConnect } from "./dbConnect";
 
 export const authOptions = {
     session: {
