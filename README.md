@@ -2,23 +2,23 @@
 
 ## Application Specification
 
-NextEcom is a web application built with Next.js, React, and other libraries. It provides features for e-commerce, such as product display, user authentication, and payment processing.
+NextEcom is a web application built with Next.js, React, Stripe, Tailwind and other libraries. It provides features for e-commerce, such as product display, user authentication, and payment processing.
 
 ## Application Features
 
-- Product display
-- User authentication
+- Full Login & Registration System
+- Social Login (Google)
+- Next Auth 
 - Payment processing
 - Cart management
 - Order tracking
-- Admin dashboard
-- Search functionality
-- Wishlist management
-- Customer reviews
+- Dashboard for Admin and User
 - Product display
+- Advance Product Searching & Filtering
+- Star Rating & Commenting System
+- Pagination
 - Responsive design
-- Inventory management
-- Discount management
+- Coupons
 
 ### Technologies Used
 - Next.js
