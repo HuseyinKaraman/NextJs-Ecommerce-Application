@@ -1,5 +1,5 @@
 "use client"
-import { AdminNav } from "@/components/ui/AdminNav";
+import AdminNav from "@/components/ui/AdminNav";
 
 const AdminDasboard = ({ children }) => {
     

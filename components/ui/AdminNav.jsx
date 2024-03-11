@@ -1,7 +1,8 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from 'next/navigation'
-export const AdminNav = () => {
+
+const AdminNav = () => {
     const pathname = usePathname();
 
     return (
@@ -42,6 +43,17 @@ export const AdminNav = () => {
                 <i className="fa fa-window-maximize block md:inline-block mr-2 text-xl md:text-2xl"></i>
                 <span>Products</span>
             </Link>
+            <Link
+                href="/dashboard/admin/orders"
+                className={`hover:bg-primary hover:text-white cursor-pointer p-1 py-3 lg:p-3 ${
+                    pathname.includes("/orders") && "bg-primary text-white"
+                }`}
+            >
+                <i className="fa fa-window-maximize block md:inline-block mr-2 text-xl md:text-2xl"></i>
+                <span>Orders</span>
+            </Link>
         </ul>
     );
 };
+
+export default AdminNav;
