@@ -58,8 +58,8 @@ export const CartProvider = ({ children }) => {
 
     // clear cart
     const clearCart = () => {
-        setCartItems([]);
         localStorage.removeItem("cartItems");
+        setCartItems([]);
     };
 
     // apply coupon

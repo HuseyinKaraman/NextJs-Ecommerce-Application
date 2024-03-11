@@ -44,7 +44,7 @@ const orderSchema = new mongoose.Schema(
             ref: "User",
         },
         cartItems: [cartItemSchema],
-        delivered_status: {
+        delivery_status: {
             type: String,
             default: "Not Processed",
             enum: ["Not Processed", "Processing", "Dispatched", "Refunded", "Cancelled","Delivered"],   

@@ -3,11 +3,14 @@ import dbConnect from "@/utils/dbConnect";
 import { currentUser } from "@/utils/currentUser";
 import Product from "@/models/product";
 import { stripe } from "@/utils/stripe";
+// import { getToken } from "next-auth/jwt";
 
 export async function POST(request) {
     await dbConnect();
     const { cartItems, couponCode } = await request.json();
     const user = await currentUser();
+    // const token = await getToken({ req: request,secret: process.env.NEXTAUTH_SECRET });
+    // const user = token?.user;
 
     if (!user) {
         return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -42,7 +45,7 @@ export async function POST(request) {
             payment_intent_data: {
                 metadata: {
                     cartItems: JSON.stringify(cartItems),
-                    userId: user._id,
+                    userId: user._id.toString(),
                 },
             },
             shipping_options: [{ shipping_rate: process.env.STRIPE_SHIPPING_RATE }],
