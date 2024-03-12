@@ -1,13 +1,10 @@
 /** @type {import('next').NextConfig} */
-
-require("dotenv").config();
-
 const nextConfig = {
     images: {
         domains: ["res.cloudinary.com"],
     },
     env: {
-        MONGODB_URI: process.env.MONGODB_URI,
+        MONGO_URL: process.env.MONGO_URL,
         NEXT_PUBLIC_API_URL:
             process.env.NODE_ENV === "production"
                 ? "https://next-js-ecommerce-application.vercel.app/api"

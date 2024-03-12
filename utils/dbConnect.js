@@ -1,13 +1,10 @@
 import mongoose from "mongoose";
 
-const dotenv = require("dotenv");
-
 export const dbConnect = async () => {
-    dotenv.config();
     if (mongoose.connection.readyState >= 1) {
         return;
     }
-    await mongoose.connect(process.env.MONGODB_URI, {
+    await mongoose.connect(`mongodb+srv://hsykrmn:sCwF"Ejc"P}9wrY@cluster0.tpgxyw7.mongodb.net/next-ecom?retryWrites=true&w=majority`, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
         useCreateIndex: true,

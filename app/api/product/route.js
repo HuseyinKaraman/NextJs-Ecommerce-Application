@@ -6,7 +6,7 @@ import queryString from "query-string";
 export async function GET(req) {
     try {
         await dbConnect();
-        const searchParams = queryString.parseUrl(req.url).query;
+        const searchParams = queryString?.parseUrl(req?.url)?.query;
         const { page } = searchParams || {};
         const pageSize = 6;
 
@@ -30,10 +30,9 @@ export async function GET(req) {
         return NextResponse.json({ products, currentPage, totalPages: Math.ceil(totalProducts / pageSize) });
     } catch (error) {
         console.log(error);
-        NextResponse.json({error}, { status: 500 });
-        // return NextResponse.json(
-        //     { error: error?.errors?.properties?.message ? error.errors.properties.message : error.message },
-        //     { status: 500 }
-        // );
+        return NextResponse.json(
+            { error: error?.errors?.properties?.message ? error.errors.properties.message : error.message },
+            { status: 500 }
+        );
     }
 }
