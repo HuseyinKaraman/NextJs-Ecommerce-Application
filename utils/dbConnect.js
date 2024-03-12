@@ -7,7 +7,6 @@ export const dbConnect = async () => {
     await mongoose.connect(`mongodb+srv://hsykrmn:sCwF"Ejc"P}9wrY@cluster0.tpgxyw7.mongodb.net/next-ecom?retryWrites=true&w=majority`, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
-        useCreateIndex: true,
     });
     console.log(`MongoDB Connected:`);
 };
