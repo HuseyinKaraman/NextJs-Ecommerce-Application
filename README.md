@@ -4,6 +4,12 @@
 
 NextEcom is a web application built with Next.js, React, Stripe, Tailwind and other libraries. It provides features for e-commerce, such as product display, user authentication, and payment processing.
 
+<a href="https://next-js-ecommerce-application.vercel.app/" target="_blank">Demo Link</a> <br/>
+<strong>user mail:</strong> test2@gmail.com <strong>password</strong> ?$vs>2kL39H5x^A  <br/>
+<strong>admin mail:</strong> test@gmail.com <strong>password</strong> ?$vs>2kL39H5x^A  <br/>
+
+
+
 ### Technologies Used
 - Next.js
 - React
