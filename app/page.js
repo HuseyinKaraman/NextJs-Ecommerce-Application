@@ -8,16 +8,20 @@ import axios from "axios";
 
 
 async function getProducts(searchParams) {
-    const searchQuery = new URLSearchParams({
-        page: searchParams?.page || 1,
-    }).toString();
-    const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/product?${searchQuery}`);
-
-    if (res.status !== 200) {
-        throw new Error("Failed to fetch products");
+    try {
+        const searchQuery = new URLSearchParams({
+            page: searchParams?.page || 1,
+        }).toString();
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/product?${searchQuery}`);
+    
+        if (res.status !== 200) {
+            throw new Error("Failed to fetch products");
+        }
+    
+        return res.data;
+    } catch (error) {
+        console.log(error);
     }
-
-    return res.data;
 }
 
 // eslint-disable-next-line @next/next/no-async-client-component

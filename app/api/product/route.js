@@ -29,6 +29,7 @@ export async function GET(req) {
 
         return NextResponse.json({ products, currentPage, totalPages: Math.ceil(totalProducts / pageSize) });
     } catch (error) {
+        console.log(error);
         return NextResponse.json(
             { error: error?.errors?.properties?.message ? error.errors.properties.message : error.message },
             { status: 500 }
