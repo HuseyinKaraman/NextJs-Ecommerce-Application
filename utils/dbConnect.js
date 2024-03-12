@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 export const dbConnect = async () => {
+  try {
     if (mongoose.connection.readyState >= 1) {
         return;
     }
@@ -12,4 +13,7 @@ export const dbConnect = async () => {
         useUnifiedTopology:true,
       });
     console.log(`MongoDB Connected:`);
+  } catch (error) {
+    console.log(error);
+  }
 };
