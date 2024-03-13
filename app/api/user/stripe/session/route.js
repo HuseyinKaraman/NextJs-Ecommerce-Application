@@ -38,7 +38,7 @@ export async function POST(request) {
 
         const session = await stripe.checkout.sessions.create({
             line_items: lineItems,
-            success_url: `${process.env.DOMAIN}/dashboard/user/stripe/success`,
+            success_url: `https://next-js-ecommerce-application.vercel.app/dashboard/user/stripe/success`,
             client_reference_id: user._id,
             payment_method_types: ["card"],
             mode: "payment",
