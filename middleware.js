@@ -7,7 +7,7 @@ export const config = {
 };
 
 export default withAuth(
-    async function middleware(req) {
+    async function middleware(req,res) {
         const url = req.nextUrl.pathname;
         const userRole = req?.nextauth?.token?.user?.role;
 
