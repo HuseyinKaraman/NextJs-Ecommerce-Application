@@ -4,7 +4,7 @@ export const dbConnect = async () => {
     if (mongoose.connection.readyState >= 1) {
         return;
     }
-    await mongoose.connect(`mongodb+srv://hsykrmn:sCwF"Ejc"P}9wrY@cluster0.tpgxyw7.mongodb.net/next-ecom?retryWrites=true&w=majority`, {
+    await mongoose.connect(`mongodb+srv://`, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
     });
